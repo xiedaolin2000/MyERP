@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block SubPageContent %}
+  <div class="box">
+    <!-- /.box-header -->
+    <div class="box-body">
+      <table id="dataList-table" class="display table table-bordered table-striped" >
+        <caption>人员信息列表</caption>
+        <thead>
+        <tr>
+        <th>姓名</th>
+        <th>工号</th>
+        <th>华为工号</th>
+        <th>手机</th>
+        <th>身份证</th>
+        <th>公司邮箱</th>
+        <th>华为邮箱</th>
+        <th>性别</th>
+        <th>岗位</th>
+        <th>入职日期</th>
+        <th>部门</th>
+        <th>业务线</th>
+        <th>项目组</th>
+        <th>籍贯省</th>
+        <th>籍贯市</th>
+        <th>婚姻状况</th>
+        <th>员工住址</th>   
+        <th>毕业院校</th>
+        <th>学历</th>
+        <th>专业</th>
+        <th>毕业日期</th>
+        <th>操作</th>
+      </tr>
+      </thead>
+        {% for p in person_list %}
+          <tr>
+            <td>{{p.userName}} </td>
+            <td> {{p.workNo}}</td>
+            <td> {{p.workNoExt}}</td>
+            <td> {{p.mobilePhone}}</td>
+            <td> {{p.IDNo}}</td>
+            <td> {{p.email}}</td>
+            <td> {{p.emailExt}}</td>
+            <td> {{p.sex}}</td>
+            <td> {{p.level}}</td>
+            <td> {{p.entryDate}}</td>
+            <td> {{p.depart}}</td>
+            <td> {{p.productUnit}}</td>
+            <td> {{p.projectName}}</td>
+            <td> {{p.provinceBirth}}</td>
+            <td> {{p.cityBirth}}</td>
+            <td> {{p.maritalStatus}}</td>
+            <td> {{p.address}}</td>
+            <td> {{p.graduatedSchool}}</td>
+            <td> {{p.education}}</td>
+            <td> {{p.profession}}</td>
+            <td> {{p.graduatedDay}}</td>
+            <td> 
+              <a href="/HR/{{p.id}}">详细信息</a> <a href="/HR/del/{{p.id}}">删除</a> </td>
+          </tr>
+        {% endfor %}  
+      </table>
+    </div>
+    <!-- /.box-body -->
+  </div>
+  <!-- /.row --> 
+{% endblock SubPageContent %}
+
+{% block JS-After %}
+  <script>
+      $(document).ready(function() {
+        $('#dataList-table').DataTable(
+          {
+            "columnDefs" : [
+              { 
+              "visible": false, 
+              "targets":[4,6,12,16] 
+              },
+
+              {
+              "targets": 7, //性别那列
+              "render": function ( data, type, full, meta ) {
+                  if(data =="1"){
+                    return "男";
+                  }
+                  else{
+                     return "女"; 
+                  }                
+              }
+              }
+               ],
+            'paging'      : true,
+            'lengthChange': true,
+            'searching'   : true,
+            'ordering'    : true,
+            'info'        : false,
+            'autoWidth'   : true,
+            "scrollX"     : true,
+            "scrollCollapse": true,
+            // 设置表格翻译的语言
+            'language':{
+              'url':"/static/bower_components/datatables.net/chinese.lang.json"
+            }
+             
+          }
+        );
+    } );   
+  </script>
+{% endblock JS-After %}
