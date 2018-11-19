@@ -1,0 +1,12 @@
+<!-- Logo -->
+{% comment "传入模板引用变量声明" %}
+  corp  company;
+  corp.ENShortName  英文短名
+        .CNShortName  中文短名
+{% endcomment %}
+<a href="/static/Homepage.html" class="logo">
+  <!-- mini logo for sidebar mini 50x50 pixels -->
+  <span class="logo-mini"><b>{{corp.ENShortName}}</b></span>
+  <!-- logo for regular state and mobile devices -->
+  <span class="logo-lg"><b>{{corp.CNShortName}}</b></span>
+</a>
