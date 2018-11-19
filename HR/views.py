@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from django.http import JsonResponse,HttpResponse
+from django.http import JsonResponse,HttpResponseRedirect
 from .models import Person
+from .forms import addPersonForm
 
 # Create your views here.
 # 这是WebService接口返回Json格式
@@ -14,10 +15,20 @@ def getPersoninfo(request):
     objs = Person.objects.all().values(*l)
     print(colMapping)
     personlist = list(objs)
+
     return JsonResponse({"data":personlist}, safe=False)
     #return render(request,"HR/personInfo.html")
 
-
-def personListview(request):
-    pl = Person.objects.all()
-    return render(request,"HR/personInfo2Table.html",{"person_list":pl})
+#new Person to Added
+def addPersonInfo(request):
+    if request.method=="POST":
+        form = addPersonForm(request.POST)
+        if form.is_valid():
+            # process the data in form.cleaned_data as required
+            # ...
+            # redirect to a new URL:
+            return HttpResponseRedirect("/success/")
+        pass
+    else:
+        form = addPersonForm()
+    return render(request,'HR/addPersonInfo.html',{'form': form})

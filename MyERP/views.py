@@ -1,10 +1,14 @@
 
 from django.shortcuts import render
+from .GlobalVar import company
 
 #这是网站的主页地址
 def HomePage(request):
-    # return render(request,"HomePage.html")
-    return render(request,"HR/addPerson.html")
+    c = company()
+    c.ENShortName ="XDL"
+    c.CNShortName = "A佰钧成"
+    c.CNFullName = "X武汉佰钧成技术有限责任公司X"
+    return render(request,"HomePage.html",{"corp":c})
 
 #登录注册验证
 def login(request):
