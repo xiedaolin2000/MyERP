@@ -13,3 +13,6 @@ def HomePage(request):
 #登录注册验证
 def login(request):
     return render(request,"login.html")
+
+def success(request):
+    return render(request,"success.html")

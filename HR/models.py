@@ -68,7 +68,10 @@ class Person(models.Model):
     # 毕业时间
     graduatedDay = models.DateField("毕业日期", null=True,default=date.today)
     
-    #人员在职状态
+   #人员在职状态 用两位数字字符表现 XY: 
+	#（X=0 Y=0-9 归类为正常，基本计算正常成本，00 在职,01 出差，02 外出公干，03 调休；）
+	#（X=1 Y=0-9 归类为福利请假：01 婚假，02 陪产假，03 病假，04 丧假，05 产假，06产检假，07 哺乳假）
+	#（X=9 Y=0-9 归类为不在职：90 离职，91 辞退）
     workStatus = models.CharField(verbose_name = "工作状态", max_length=5, 
         choices=(('00','在职'), ('11','请假'), ('99','离职')), default="00", blank=False, null=False)
 
