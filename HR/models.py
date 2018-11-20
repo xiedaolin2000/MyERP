@@ -37,7 +37,7 @@ class Person(models.Model):
         ("9B",   "9B"), ("9A",   "9A"), ("10B", "10B"), ("10A", "10A"),
         ("11B", "11B"), ("11A", "11A"), ("12B", "12B"), ("12A", "12A")
     )
-    level = models.CharField("岗位级别", max_length=4, choices=levelList, default="00")
+    level = models.CharField("岗位级别", max_length=4, choices=levelList, default="4A")
     # 到岗日期/入职日期
     entryDate = models.DateField("入职日期", default=date.today)
     # 部门

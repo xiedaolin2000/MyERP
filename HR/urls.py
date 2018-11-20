@@ -15,10 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .views import getPersoninfo, addPersonInfo
+from .views import getPersoninfo, addPersonInfo,personList
 
 urlpatterns = [
     #WebService 接口
     path('WS', getPersoninfo),
+    path('', personList),
     path('add', addPersonInfo),
 ]
