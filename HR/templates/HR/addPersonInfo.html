@@ -1,21 +1,187 @@
 {% extends "base.html" %}
 {% block SubPageContent %}
-<form role="form" action="add" method="post">
-{% csrf_token %}
-<div class='row'>
-    <div class='col-md-6'>
-        {% for field in form %}
-        <div class="form-group">
-                {{ field.errors }}
-                {{ field.label_tag }}
-                {{ field }}
+<form role="form" action="/HR/add" method="POST">
+    {% csrf_token %}
+    <div class='row'> {#.row #}
+        <div class='col-md-4'>
+            <div class="form-group">
+                {# 姓名 #}
+                {{ form.userName.errors }}
+                {{ form.userName.label_tag }}
+                {{ form.userName }}       
+            </div>
+            <div class="form-group">
+                {# 姓名 #}
+                {{ form.workNo.errors }}
+                {{ form.workNo.label_tag }}
+                {{ form.workNo }}       
+            </div>
+            <div class="form-group">
+                {# 姓名 #}
+                {{ form.workNoExt.errors }}
+                {{ form.workNoExt.label_tag }}
+                {{ form.workNoExt }}       
+            </div>
+            <div class="form-group">
+                {# 姓名 #}
+                {{ form.mobilePhone.errors }}
+                {{ form.mobilePhone.label_tag }}
+                {{ form.mobilePhone }}       
+            </div>
+            <div class="form-group">
+                {# 姓名 #}
+                {{ form.IDNo.errors }}
+                {{ form.IDNo.label_tag }}
+                {{ form.IDNo }}       
+            </div>
+            <div class="form-group">
+                {# 姓名 #}
+                {{ form.email.errors }}
+                {{ form.email.label_tag }}
+                {{ form.email }}       
+            </div>
+            <div class="form-group">
+                {# 姓名 #}
+                {{ form.email2.errors }}
+                {{ form.email2.label_tag }}
+                {{ form.email2 }}       
+            </div>
+            <div class="form-group">
+                {# 姓名 #}
+                {{ form.sex.errors }}
+                {{ form.sex.label_tag }}
+                {{ form.sex }}       
+            </div>
         </div>
-        {% endfor %}
+
+        <div class='col-md-4'>
+            <div class="form-group">
+                {# 姓名 #}
+                {{ form.level.errors }}
+                {{ form.level.label_tag }}
+                {{ form.level }}
+            </div>
+            <div class="form-group">
+                {# 姓名 #}
+                {{ form.entryDate.errors }}
+                {{ form.entryDate.label_tag }}
+                {{ form.entryDate }}       
+            </div>
+            <div class="form-group">
+                {# 姓名 #}
+                {{ form.depart.errors }}
+                {{ form.depart.label_tag }}
+                {{ form.depart }}       
+            </div>
+            <div class="form-group">
+                {# 姓名 #}
+                {{ form.productUnit.errors }}
+                {{ form.productUnit.label_tag }}
+                {{ form.productUnit }}       
+            </div>
+            <div class="form-group">
+                {# 姓名 #}
+                {{ form.projectName.errors }}
+                {{ form.projectName.label_tag }}
+                {{ form.projectName }}       
+            </div>
+            <div class="form-group">
+                {# 姓名 #}
+                {{ form.provinceBirth.errors }}
+                {{ form.provinceBirth.label_tag }}
+                {{ form.provinceBirth }}       
+            </div>
+            <div class="form-group">
+                {# 姓名 #}
+                {{ form.cityBirth.errors }}
+                {{ form.cityBirth.label_tag }}
+                {{ form.cityBirth }}       
+            </div>
+        </div>
+
+        <div class='col-md-4'>
+            <div class="form-group">
+                {# 姓名 #}
+                {{ form.birthDay.errors }}
+                {{ form.birthDay.label_tag }}
+                {{ form.birthDay }}
+            </div>
+            <div class="form-group">
+                {# 姓名 #}
+                {{ form.maritalStatus.errors }}
+                {{ form.maritalStatus.label_tag }}
+                {{ form.maritalStatus }}       
+            </div>
+            <div class="form-group">
+                {# 姓名 #}
+                {{ form.address.errors }}
+                {{ form.address.label_tag }}
+                {{ form.address }}       
+            </div>
+            <div class="form-group">
+                {# 姓名 #}
+                {{ form.graduatedSchool.errors }}
+                {{ form.graduatedSchool.label_tag }}
+                {{ form.graduatedSchool }}       
+            </div>
+            <div class="form-group">
+                {# 姓名 #}
+                {{ form.education.errors }}
+                {{ form.education.label_tag }}
+                {{ form.education }}       
+            </div>
+            <div class="form-group">
+                {# 姓名 #}
+                {{ form.profession.errors }}
+                {{ form.profession.label_tag }}
+                {{ form.profession }}       
+            </div>
+            <div class="form-group">
+                {# 姓名 #}
+                {{ form.graduatedDay.errors }}
+                {{ form.graduatedDay.label_tag }}
+                {{ form.graduatedDay }}       
+            </div>
+            <div class="form-group">
+                {# 姓名 #}
+                {{ form.workStatus.errors }}
+                {{ form.workStatus.label_tag }}
+                {{ form.workStatus }}       
+            </div>
+        </div>
+    </div> {#.row #}
+
+    <div class="box-footer">
+        <button type="submit" class="btn btn-primary">添加</button>
     </div>
-    <div class='col-md-6'></div>
-</div>
-<div class="box-footer">
-    <button type="submit" class="btn btn-primary">添加</button>
-</div>
 </form>
+
+{% comment %} 
+ <div class='col-md-6'>
+ {#分成两列显示#}
+{% for field in form %}
+{# 0序号开始，偶数左列，奇数右列 #}
+    {% if forloop.counter0|divisibleby:"2" %}
+        <div class="form-group">
+            {{ field.errors }}
+            {{ field.label_tag }}
+            {{ field }}
+        </div>
+    {% endif %}
+{% endfor %}
+</div>
+
+<div class='col-md-6'>
+{% for field in form %}
+{#0序号开始，偶数左列，奇数右列 #}
+    {% if not forloop.counter0|divisibleby:"2" %}
+        <div class="form-group">
+            {{ field.errors }}
+            {{ field.label_tag }}
+            {{ field }}
+        </div>
+    {% endif %}
+{% endfor %}
+</div>
+ {% endcomment %}
 {% endblock SubPageContent %}

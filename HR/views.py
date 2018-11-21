@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import JsonResponse,HttpResponseRedirect
+from django.http import JsonResponse,HttpResponseRedirect,Http404
 from .models import Person
 from .forms import addPersonForm
 
@@ -28,14 +28,17 @@ def personList(request):
 def addPersonInfo(request):
     if request.method=="POST":
         form = addPersonForm(request.POST)
-        if form.is_valid():
+        #如果页面上面缺少和form对应的字段，is_valid()会失败，也没有提示。-_-||
+        if form.is_valid():            
             # process the data in form.cleaned_data as required
             # p = addPersonForm(form.cleaned_data)
             # p.save()
             form.save()
             # redirect to a new URL:
             return HttpResponseRedirect("/success/")
-        pass
+        else:
+            raise Http404 
     else:
         form = addPersonForm()
+
     return render(request,'HR/addPersonInfo.html',{'form': form})
