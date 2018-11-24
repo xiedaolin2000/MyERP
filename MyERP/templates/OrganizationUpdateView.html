@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block SubPageContent %}
+<form role="form"  method="POST">
+  {% csrf_token %}  
+
+	<div class="row">
+		
+    <div class="box-body">
+    <div class="col-xs-6">
+			<div class="form-group">
+					{# 姓名 #}
+					{{ form.nodeID.errors }}
+					{{ form.nodeID.label_tag }}
+					{{ form.nodeID }}       
+			</div>
+			
+			<div class="form-group">
+					{# 姓名 #}
+					{{ form.nodeName.errors }}
+					{{ form.nodeName.label_tag }}
+					{{ form.nodeName }}       
+			</div>
+			
+			<div class="form-group">
+					{# 姓名 #}
+					{{ form.nodeParent.errors }}
+					{{ form.nodeParent.label_tag }}
+					{{ form.nodeParent }}       
+			</div>
+			
+			<div class="form-group">
+                {# 姓名 #}
+                {{ form.level.errors }}
+                {{ form.level.label_tag }}
+                {{ form.level }}       
+			</div>
+		</div>	
+	</div> {#.row#}
+    </div>
+   <div class="box-footer">
+    <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+    
+
+</form>
+{% endblock SubPageContent %}

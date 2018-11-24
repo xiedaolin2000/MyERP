@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from .views import HomePage,login,success
+from .views import OrganizationUpdateView
 
 urlpatterns = [
     path('', HomePage),
@@ -23,4 +24,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('HR/', include("HR.urls")),
     path('success/', success),
+    path('org/<int:pk>/', OrganizationUpdateView.as_view()),
 ]

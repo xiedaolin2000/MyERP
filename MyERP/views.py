@@ -1,6 +1,9 @@
 
 from django.shortcuts import render
 from .GlobalVar import company
+from .models import Organization
+from django.views.generic.edit import CreateView,UpdateView
+from .forms import OrganizationForm
 
 #这是网站的主页地址
 def HomePage(request):
@@ -16,3 +19,8 @@ def login(request):
 
 def success(request):
     return render(request,"success.html")
+
+class OrganizationUpdateView(UpdateView):
+    model = Organization
+    form_class = OrganizationForm
+    template_name = "OrganizationUpdateView.html"
