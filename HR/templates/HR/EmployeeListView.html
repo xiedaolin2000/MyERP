@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block SubPageContent %}
+<div class="container-fluid">
+  <table id="dt_Employeelist" class="table table-hover table-responsive-xl" >
+    <thead class="thead-dark">
+      <tr>
+    <th scope="col">姓名</th>
+    <th scope="col">工号</th>   
+    <th scope="col">手机</th>
+    <th scope="col">身份证</th>
+    <th scope="col">公司邮箱</th>    
+    <th scope="col">性别</th>
+    <th scope="col">岗位</th>
+    <th scope="col">入职日期</th>
+    <th scope="col">项目组</th>
+    <th scope="col">学历</th>
+    <th scope="col">操作</th>
+  </tr>
+  </thead>
+    {% for p in Employee %}
+      <tr>
+        <td>{{p.userName}} </td>
+        <td> {{p.workNo}}</td>       
+        <td> {{p.mobilePhone}}</td>
+        <td> {{p.IDNo}}</td>
+        <td> {{p.email}}</td>        
+        <td> {{p.get_sex_display}}</td>
+        <td> {{p.level}}</td>
+        <td> {{p.entryDate}}</td>       
+        <td> {{p.depart}}</td>
+        <td> {{p.get_education_display}}</td>
+        <td> 
+          <p><a href="/HR/{{p.id}}/">详情</a></p>
+          <p><a href="/HR/{{p.id}}/del">删除</a></p>          
+        </td>
+      </tr>
+    {% endfor %}    
+</table>
+</div>
+
+{% endblock SubPageContent %}
+{% block JS-After %}
+<script>
+$(document).ready( function () {
+    $('#dt_Employeelist').DataTable(
+      {
+        'scrollX':true,
+        'scrollY':true,
+        'autoWidth' : true,
+        'language':{
+              'url':"/static/bower_components/datatables.net/chinese.lang.json"
+            }
+      }
+    );
+} );
+</script>
+{% endblock JS-After %}
+
+{% comment %}
+  通用列表视图自带的分页功能对象，不需要自己在额外申明 
+  https://blog.csdn.net/l475378094/article/details/76850725
+{% endcomment %}
+{% comment %} 
+<div class="pagination">
+  <span class="step-links">
+    {% if page_obj.has_previous %}
+      <a href="?page={{page_obj.previous_page_mumber}}"><<</a>
+    {% endif %}
+  </span>
+  <span class="current">
+    {{page_obj.number}}/{{paginator.num_pages}}
+  </span>
+  <span class="step-links">
+  {% if page_obj.has_next %}
+    <a href="?page={{page_obj.next_page_number}}">>></a>
+  {% endif %}  
+  </span>
+
+</div>
+{{Author}} 
+{% endcomment %}

@@ -1,13 +1,13 @@
 from django.forms import ModelForm
-from .models import Person
+from .models import Employee
 
-class PersonForm(ModelForm):
+class EmployeeForm(ModelForm):
     def __init__(self, *args, **kwargs):        
-        super(PersonForm, self).__init__(*args, **kwargs)        
+        super(EmployeeForm, self).__init__(*args, **kwargs)        
         for field in iter(self.fields):            
             self.fields[field].widget.attrs.update({ 'class': 'form-control' })
     class Meta:
-        model = Person
+        model = Employee
         fields = '__all__'
         # fields = ['userName','']
     
