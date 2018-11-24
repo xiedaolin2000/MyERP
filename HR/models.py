@@ -1,8 +1,9 @@
 from django.db import models
 from datetime import date
+# 人力资源规划、招聘与配置、培训与开发、绩效管理、薪酬福利管理、劳动关系管理 https://baike.baidu.com/item/%E4%BA%BA%E5%8A%9B%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E5%85%AD%E5%A4%A7%E6%A8%A1%E5%9D%97#2
 
 # Create your models here.
-class Person(models.Model):
+class Employee(models.Model):
     """
     人员信息，包含基本信息属性
     """
@@ -26,6 +27,7 @@ class Person(models.Model):
     email2 = models.EmailField("华为邮箱", max_length=50, null=True)
 
     #性别字段只能是0或1的值，元组第一位表示保存的值，第二位表示显示的值
+    #在前端显示时候 使用Model.get_FieldName_display() 函数获取显示值
     sex = models.CharField("性别", max_length=1, choices=(("0", "女"), ("1", "男")), default="1")
     # 岗位级别
     levelList = (
@@ -41,11 +43,17 @@ class Person(models.Model):
     # 到岗日期/入职日期
     entryDate = models.DateField("入职日期", default=date.today)
     # 部门
-    depart = models.CharField("部门", max_length=10, default="0", null=True)
+    # depart = models.CharField("部门", max_length=10, default="0", null=True)
+    depart = models.ForeignKey("MyERP.Organization", to_field="nodeID", 
+                                on_delete=models.CASCADE,db_column="depart",
+                                limit_choices_to={'level': 3}, #下拉选项过滤出3级部门名称
+                                verbose_name="部门")  
+    
     # 业务线
     productUnit = models.CharField("产品线", max_length=10, default="0",null=True)
-    # 项目组
-    projectName = models.CharField("项目组名", max_length=20, default="0",null=True)
+    # 项目组,depart使用了组织结构外键引用不需要项目组名称了
+    # projectName = models.CharField("项目组名", max_length=20, default="0",null=True)
+   
     # 籍贯省
     provinceBirth = models.CharField("籍贯省份", max_length=20,null=True, default="江苏省")
     # 籍贯市
@@ -53,6 +61,7 @@ class Person(models.Model):
     # 出生日期
     birthDay = models.DateField("出生日期", null=True,default=date.today)
     # 婚姻状况
+    #在前端显示时候 使用Model.get_FieldName_display() 函数获取显示值
     maritalStatus = models.CharField("婚姻状况", max_length=1, 
         choices=(('0','未婚'), ('1','已婚'), ('2','离异')), default="0")
   
@@ -60,7 +69,8 @@ class Person(models.Model):
     address = models.CharField("住址", max_length=200, null=True)
     # 毕业院校
     graduatedSchool = models.CharField("毕业学校", max_length=20, null=True,default="大学")
-    # 学历
+    # 学历 
+    # #在前端显示时候 使用Model.get_FieldName_display() 函数获取显示值
     education = models.CharField("学历", max_length=1,
     choices=(('0', '小学'), ('1', '初中'), ('2', '高中'), ('3', '大专'), ('4', '本科'), ('5', '研究生')),null=True, default="4")
     # 大学专业名称
@@ -78,8 +88,8 @@ class Person(models.Model):
   
     def get_absolute_url(self):
         from django.urls import reverse
-        # return reverse('PersonListView', kwargs={'pk': self.pk})
-        return reverse('PersonListView')
+        # return reverse('EmployeeListView', kwargs={'pk': self.pk})
+        return reverse('EmployeeListView')
 
     class Meta:
         ordering = ["-entryDate"]
@@ -92,7 +102,7 @@ class Salary(models.Model):
     员工薪资调整的详细数据
     """
     #员工
-    person = models.ForeignKey(Person,on_delete=models.CASCADE , verbose_name="员工")
+    Employee = models.ForeignKey(Employee,on_delete=models.CASCADE , verbose_name="员工")
     #调薪生效日期，也就是说薪资是在几月份进行生效的
     applyDate = models.DateField("生效月份", default=date.today)
     #调薪幅度
@@ -106,7 +116,7 @@ class Salary(models.Model):
     #此处表示表名字
     verbose_name = "薪资调整数据"
     def __str__(self):
-        return self.person
+        return self.Employee
 
 #员工绩效考评记录
 class Performace(models.Model):
@@ -115,7 +125,7 @@ class Performace(models.Model):
     Employee performance evaluation review
     """
     #关联员工表数据，多对一 ；外键要定义在‘多’的一方
-    person     = models.ForeignKey(Person,on_delete=models.CASCADE, verbose_name="员工")
+    Employee     = models.ForeignKey(Employee,on_delete=models.CASCADE, verbose_name="员工")
 
     #绩效考察周期
     dateRange  = models.CharField(verbose_name ="考核周期", max_length=10, default="2018Q1", blank=True, null=True)  
@@ -141,7 +151,7 @@ class PerformaceDetail(models.Model):
     """
 
     #关联员工表数据，多对一 ；外键要定义在‘多’的一方
-    person     = models.ForeignKey(Person,on_delete=models.CASCADE, verbose_name="员工")
+    Employee     = models.ForeignKey(Employee,on_delete=models.CASCADE, verbose_name="员工")
     
     #绩效考察周期
     dateRange  = models.CharField(verbose_name ="考核周期", max_length=10, default="2018Q1", blank=True, null=True)
