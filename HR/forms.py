@@ -1,9 +1,9 @@
 from django.forms import ModelForm
 from .models import Person
 
-class addPersonForm(ModelForm):
+class PersonForm(ModelForm):
     def __init__(self, *args, **kwargs):        
-        super(addPersonForm, self).__init__(*args, **kwargs)        
+        super(PersonForm, self).__init__(*args, **kwargs)        
         for field in iter(self.fields):            
             self.fields[field].widget.attrs.update({ 'class': 'form-control' })
     class Meta:

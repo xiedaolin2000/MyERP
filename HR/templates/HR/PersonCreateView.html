@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block SubPageContent %}
-<form role="form" action="/HR/{{form.instance.pk}}/" method="POST">
+<form role="form" action="/HR/add/" method="POST">
     {% csrf_token %}
     <div class='row'> {#.row #}
         <div class='col-md-4'>

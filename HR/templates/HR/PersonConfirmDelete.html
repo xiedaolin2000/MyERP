@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block SubPageContent %}
+
+    <div class='row'> {#.row #}
+        <div class='col-md-4'>
+        你是否要删除以下人员
+       <br> <P>
+        {{ person.userName }}
+       </P>
+       <P>
+        {{ person.workNo }}
+       </P>
+       <P>
+        {{ person.IDNo }}
+       </P>
+       <br>
+      
+    </div>   
+
+    </div> {#.row #}
+ <form method="POST">
+  {% csrf_token %} 
+    <div class="box-footer">
+         <button type="submit" class="btn btn-primary">是的</button>
+        <button class="btn ui-button-text-icon-secondary">返回</button>
+    </div>
+</form>
+
+{% endblock SubPageContent %}

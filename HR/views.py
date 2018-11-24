@@ -1,7 +1,43 @@
 from django.shortcuts import render
 from django.http import JsonResponse,HttpResponseRedirect,Http404
 from .models import Person
-from .forms import addPersonForm
+from .forms import PersonForm
+from django.views.generic import ListView,DetailView
+from django.views.generic.edit import CreateView,DeleteView,UpdateView
+from django.urls import reverse_lazy
+
+class PersonListView(ListView):
+    model = Person
+    ordering= ["-id"]
+    context_object_name = 'person'
+    template_name='HR/PersonListView.html'
+    def get_queryset(self):
+        #返回在职状态的人员
+        return Person.objects.filter(workStatus="00")
+class PersonDetailView(DetailView):
+    model = Person
+    template_name='personDetailView.html'
+
+#通用编辑试图
+class PersonCreateView(CreateView):
+    model = Person
+    form_class = PersonForm
+    template_name='HR/PersonCreateView.html'
+    success_url = "/success/"
+    
+class PersonDeleteView(DeleteView):
+    model = Person
+    context_object_name="person"
+    template_name='HR/PersonConfirmDelete.html'
+    success_url = "/success/"
+    #我们必须在这里使用reverse_lazy()，而不是 reverse(),因为在导入文件时未加载URL
+    # success_url = reverse_lazy('author-list')
+
+class PersonUpdateView(UpdateView):
+    model = Person
+    form_class = PersonForm
+    template_name='HR/PersonUpdateView.html'
+    success_url = "/success/"
 
 # Create your views here.
 # 这是WebService接口返回Json格式
@@ -21,13 +57,19 @@ def getPersoninfo(request):
     return JsonResponse({"data":personlist}, safe=False)
     #return render(request,"HR/personInfo.html")
 
-def personList(request):
+def getPersonList(request):
     return render(request,"HR/personInfo2Table.html")
 
+def modPersonInfo(request, person_id):
+    #查询编号对应的员工在页面显示进行人员编辑修改
+    if person_id:
+        p = Person.objects.get(pk=person_id)
+        form = PersonForm(request.POST, instance=p)
+    return render(request,'HR/addPersonInfo.html',{'form': form})
 #new Person to Added
 def addPersonInfo(request):
     if request.method=="POST":
-        form = addPersonForm(request.POST)
+        form = PersonForm(request.POST)
         #如果页面上面缺少和form对应的字段，is_valid()会失败，也没有提示。-_-||
         if form.is_valid():            
             # process the data in form.cleaned_data as required
@@ -39,6 +81,7 @@ def addPersonInfo(request):
         else:
             raise Http404 
     else:
-        form = addPersonForm()
+        form = PersonForm()
 
     return render(request,'HR/addPersonInfo.html',{'form': form})
+
