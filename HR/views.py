@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse,HttpResponseRedirect,Http404
-from .models import Employee
-from .forms import EmployeeForm
+from .models import Employee,Demission
+from .forms import EmployeeForm,DemissionForm
 from django.views.generic import ListView,DetailView
 from django.views.generic.edit import CreateView,DeleteView,UpdateView
 from django.urls import reverse_lazy
@@ -39,6 +39,18 @@ class EmployeeUpdateView(UpdateView):
     template_name='HR/EmployeeUpdateView.html'
     success_url = "/success/"
 
+#办理离职
+class DemissionCreateView(CreateView):
+    model = Demission
+    form_class = DemissionForm
+    template_name='HR/DemissionCreateUpdateView.html'
+    success_url = "/success/"
+#更新离职数据
+class DemissionUpdateView(UpdateView):
+    model = Demission
+    form_class = DemissionForm
+    template_name='HR/DemissionCreateUpdateView.html'
+    success_url = "/success/"
 # Create your views here.
 # 这是WebService接口返回Json格式
 def getEmployeeinfo(request):

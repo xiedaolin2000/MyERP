@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block SubPageContent %}
+<form role="form"  method="POST">
+    {% csrf_token %}
+    <div class='row'> {#.row #}
+        <div class='col-md-4'>
+            <div class="form-group">
+                {# 离职员工姓名 #}
+                {{ form.employee.errors }}
+                {{ form.employee.label_tag }}
+                {{ form.employee }}       
+            </div>
+
+
+            <div class="form-group">
+                {# 离职日期 #}
+                {{ form.dateLeave.errors }}
+                {{ form.dateLeave.label_tag }}
+                {{ form.dateLeave }}       
+            </div>
+          
+
+            <div class="form-group">
+                {# 离职类型 #}
+                {{ form.classLeave.errors }}
+                {{ form.classLeave.label_tag }}
+                {{ form.classLeave }}       
+            </div>
+
+            <div class="form-group">
+                {# 离职原因 #}
+                {{ form.reasonLeave.errors }}
+                {{ form.reasonLeave.label_tag }}
+                {{ form.reasonLeave }}       
+            </div>
+        </div>
+
+    </div> {#.row #}
+
+    <div class="box-footer">
+        <button type="submit" class="btn btn-primary">添加</button>
+    </div>
+</form>
+
+{% comment %} 
+ <div class='col-md-6'>
+ {#分成两列显示#}
+{% for field in form %}
+{# 0序号开始，偶数左列，奇数右列 #}
+    {% if forloop.counter0|divisibleby:"2" %}
+        <div class="form-group">
+            {{ field.errors }}
+            {{ field.label_tag }}
+            {{ field }}
+        </div>
+    {% endif %}
+{% endfor %}
+</div>
+
+<div class='col-md-6'>
+{% for field in form %}
+{#0序号开始，偶数左列，奇数右列 #}
+    {% if not forloop.counter0|divisibleby:"2" %}
+        <div class="form-group">
+            {{ field.errors }}
+            {{ field.label_tag }}
+            {{ field }}
+        </div>
+    {% endif %}
+{% endfor %}
+</div>
+ {% endcomment %}
+{% endblock SubPageContent %}

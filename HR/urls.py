@@ -18,6 +18,7 @@ from django.urls import path
 from .views import getEmployeeinfo, addEmployeeInfo,modEmployeeInfo
 from .views import EmployeeListView
 from .views import EmployeeCreateView,EmployeeDeleteView,EmployeeUpdateView
+from .views import DemissionCreateView,DemissionUpdateView
 
 urlpatterns = [
     #WebService 接口
@@ -26,4 +27,7 @@ urlpatterns = [
     path('add/',         EmployeeCreateView.as_view(), name="Employee-add"),
     path('<int:pk>/',    EmployeeUpdateView.as_view(), name="Employee-update"),
     path('<int:pk>/del', EmployeeDeleteView.as_view(), name="Employee-delete"),
+    #离职手续
+    path('leave/',         DemissionCreateView.as_view(), name="Demission-add"),
+    path('<int:pk>/leave', DemissionUpdateView.as_view(), name="Demission-update"),
 ]

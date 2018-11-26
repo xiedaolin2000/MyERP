@@ -96,6 +96,26 @@ class Employee(models.Model):
     def __str__(self):
         return self.userName
 
+#离职员工
+class Demission(models.Model):
+    '''
+    记录离职员工相关信息
+    '''
+    employee    = models.ForeignKey(Employee, on_delete=models.CASCADE,verbose_name="离职员工姓名")
+    #离职时间,auto_now = True 的话form表单里面就不显示
+    dateLeave   = models.DateField (verbose_name = "离职时间", default=date.today)
+    #离职原因分类
+    classLeave = models.CharField(verbose_name = "离职类型",   max_length=1, 
+                                    choices=(("0", "主动离职"), ("1", "淘汰"), ("2", "辞退")), default="0",
+                                    blank=False, null=False)
+    #离职原因
+    reasonLeave = models.CharField (verbose_name = "离职原因", max_length=50,blank=False, null=False)
+    # models.datetime(verbose_name = "离职时间",default = date.today())
+
+    def __str__(self):
+        return employee
+
+
 #薪资调整记录
 class Salary(models.Model):
     """
@@ -125,13 +145,13 @@ class Performace(models.Model):
     Employee performance evaluation review
     """
     #关联员工表数据，多对一 ；外键要定义在‘多’的一方
-    Employee     = models.ForeignKey(Employee,on_delete=models.CASCADE, verbose_name="员工")
+    Employee  = models.ForeignKey(Employee,on_delete=models.CASCADE, verbose_name="员工")
 
     #绩效考察周期
-    dateRange  = models.CharField(verbose_name ="考核周期", max_length=10, default="2018Q1", blank=True, null=True)  
+    dateRange  = models.CharField(verbose_name ="考核周期", max_length=10, default="2018Q1", blank=False, null=False)  
 
     #绩效得分    
-    total      = models.IntegerField(verbose_name ="绩效得分",default=0,blank=True, null=True)
+    total      = models.IntegerField(verbose_name ="绩效得分",default=0,blank=False, null=False)
 
     #绩效结果
     result     = models.CharField(verbose_name ="绩效结果", max_length=10, blank=True, null=True)
