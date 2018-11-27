@@ -2,6 +2,7 @@ from django.db import models
 from datetime import date
 
 # Create your models here.
+#增加紧急联系人
 class Person(models.Model):
     """
     人员信息，包含基本信息属性
@@ -152,3 +153,53 @@ class PerformaceDetail(models.Model):
 
     def __str__(self):
         return ""
+
+#骨干员工
+class BackBone(models.Model):
+    '骨干员工档案'
+
+    employee = models.ForeignKey('Employee', on_delete=models.CASCADE,verbose_name="姓名")
+    #划分骨干的时间周期 例如：2018H1，2018H2，2019H1
+    dateRange = models.CharField(verbose_name="骨干周期", max_length=10, default="2019H1")
+    #骨干详细信息
+    # 是否有房产
+    ownHouse = models.BooleanField(verbose_name="是否有房产", default=False)
+    # 房贷金额,大约列举
+    houseDebt = models.CharField(verbose_name="房贷债务", max_length=20, default="房贷债务")
+    # 是否分居两地
+    diffArea = models.BooleanField(verbose_name="是否异地", default=False)
+    # 是否有小孩
+    hasChild = models.BooleanField(verbose_name="是否有小孩", default=False)
+    # 小孩性别
+    sexChild = models.CharField(verbose_name="小孩性别", max_length=10,  default="男孩")
+    # 小孩年龄
+    birthChild = models.CharField(verbose_name="小孩年龄", max_length=10,  default="出生日期")
+    # 个人兴趣爱好
+    hobby = models.CharField(verbose_name="个人兴趣爱好", max_length=30,  default="游戏、音乐，运动，看书，看电影")
+    def __str__(self):
+        return '骨干员工档案信息'
+    
+#骨干员工维护记录
+class BackBoneOptRec(models.Model):
+    '''
+    骨干员工看护人责任维护记录，通过各种维护形式进行骨干维稳
+    '''
+
+    def __str__(self):
+        return "骨干维护记录"
+
+
+
+
+
+#员工考勤明细记录
+class AttendanceDetail(models.Model):
+    '''
+    员工考勤明细表
+    '''
+    employee    = models.ForeignKey('Employee', on_delete=models.CASCADE)
+    checkinTime = models.DateTimeField("打卡时间",auto_now=True)
+    checkinArea = models.CharField(max_length=15, blank=False, null=False,default="") 
+
+    def __str__(self):
+        return "打卡明细记录"
