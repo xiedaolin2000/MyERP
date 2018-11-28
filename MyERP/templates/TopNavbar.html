@@ -1,4 +1,7 @@
- <!-- Header Navbar 顶部导航栏-->
+ <!-- Header Navbar 顶部导航栏
+ 导航栏通知消息
+ notification
+ -->
     <nav class="navbar navbar-static-top" role="navigation">
       <!-- Sidebar toggle button 侧边栏开关 位置顶部左侧-->
       <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
@@ -14,30 +17,36 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-envelope-o"></i>
               <!-- 这个span标签里面的数字代表图标边上数字显示 -->
-              <span class="label label-success">3</span>
+              <span class="label label-success">{{msgList.count}}</span>
             </a>
             <ul class="dropdown-menu">
 
-              <li class="header">您有 3 条未读消息</li>
+              <li class="header">您有 {{msgList.count}} 条未读消息</li>
               <li>
                 <!-- inner menu: contains the messages -->
                 <ul class="menu">
-                  <li><!-- start message 第一个消息-->
-                    <a href="#">
-                      <div class="pull-left">
-                        <!-- User Image -->
-                        <img src="/static/HR/B-00000-head.jpg" class="img-circle" alt="User Image">
-                      </div>
-                      <!-- Message title and timestamp -->
-                      <h4>
-                        Support Team
-                        <small><i class="fa fa-clock-o"></i> 5 mins</small>
-                      </h4>
-                      <!-- The message -->
-                      <p>Why not buy a new awesome theme?</p>
-                    </a>
-                  </li>
-                  <!-- end message -->
+                {#循环读取消息显示出来 #}
+                  {% for msg in msgList %}
+                  <li><!-- start message 消息结构体开始-->
+                      <a href="#">
+                        <div class="pull-left">
+                          <!-- User Image 用户头像 -->
+                          <img src="/static/HR/B-00000-head.jpg" class="img-circle" alt="User Image">
+                        </div>
+                        <!-- Message title and timestamp -->
+                        <h4>
+                          {{ msg.msgTitle |truncatechars:10 }}
+                          <small><i class="fa fa-clock-o"></i> 5 mins</small>
+                        </h4>
+                        <!-- The message 消息内容，超过9个显示省略号-->
+                        <p>{{ msg.msgContent|truncatechars:20 }}</p>
+                      </a>
+                    </li>                 
+                    <!-- end message消息结构体结束 -->
+                  {% endfor %}
+                  
+
+                  {% comment %} 
                   <li><!-- start message2 第2个消息通知-->
                     <a href="#">
                       <div class="pull-left">
@@ -70,6 +79,7 @@
                     </a>
                   </li>
                   <!-- end message3 -->
+                   {% endcomment %}
 
                 </ul>
                 <!-- /.menu -->

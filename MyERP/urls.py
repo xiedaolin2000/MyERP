@@ -19,7 +19,7 @@ from .views import HomePage,login,success
 from .views import OrganizationUpdateView
 
 urlpatterns = [
-    path('', HomePage),
+    path('', HomePage, name="HomePage" ),
     path('login', login),
     path('admin/', admin.site.urls),
     path('HR/', include("HR.urls")),

@@ -4,9 +4,11 @@
   corp.ENShortName  英文短名
         .CNShortName  中文短名
 {% endcomment %}
-<a href="/static/Homepage.html" class="logo">
+
+<a href={% url "HomePage" %} class="logo">
   <!-- mini logo for sidebar mini 50x50 pixels -->
   <span class="logo-mini"><b>{{corp.ENShortName}}</b></span>
+	
   <!-- logo for regular state and mobile devices -->
   <span class="logo-lg"><b>{{corp.CNShortName}}</b></span>
 </a>

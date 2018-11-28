@@ -1,4 +1,14 @@
 {% extends "base.html" %}
+
+
+{% block SubPageHeader %}
+		员工信息
+{% endblock SubPageHeader%}
+
+{%block SubPageDescription%}
+列表形式显示人员简要信息
+{%endblock SubPageDescription%}
+
 {% block SubPageContent %}
 <div class="container-fluid">
   <table id="dt_Employeelist" class="table table-hover table-responsive-xl" >
@@ -30,8 +40,8 @@
         <td> {{p.depart}}</td>
         <td> {{p.get_education_display}}</td>
         <td> 
-          <p><a href="/HR/{{p.id}}/">详情</a></p>
-          <p><a href="/HR/{{p.id}}/del">删除</a></p>          
+          <a href="/HR/{{p.id}}/">详情</a>/
+          <a href="/HR/{{p.id}}/del">删除</a>
         </td>
       </tr>
     {% endfor %}    
@@ -39,7 +49,9 @@
 </div>
 
 {% endblock SubPageContent %}
-{% block JS-After %}
+
+{% block JavaScriptRef %}
+{{block.super}}
 <script>
 $(document).ready( function () {
     $('#dt_Employeelist').DataTable(
@@ -54,7 +66,7 @@ $(document).ready( function () {
     );
 } );
 </script>
-{% endblock JS-After %}
+{% endblock JavaScriptRef %}
 
 {% comment %}
   通用列表视图自带的分页功能对象，不需要自己在额外申明 
