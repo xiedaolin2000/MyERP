@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'MyERP',
+    'CORE',
     'HR',
 ]
 
@@ -51,12 +51,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'MyERP.urls'
+ROOT_URLCONF = 'CORE.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'MyERP/templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'CORE/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -69,7 +69,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'MyERP.wsgi.application'
+WSGI_APPLICATION = 'CORE.wsgi.application'
 
 
 # Database
@@ -121,6 +121,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS=[
-     os.path.join(BASE_DIR, 'MyERP/static')
+     os.path.join(BASE_DIR, 'CORE/static')
      #os.path.join(BASE_DIR, 'HR/static')
 ]

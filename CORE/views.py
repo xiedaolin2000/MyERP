@@ -1,7 +1,6 @@
 
 from django.shortcuts import render
-from .GlobalVar import company,MessageIn
-from .models import Organization
+from .models import Organization,MessageIn,company
 from django.views.generic.edit import CreateView,UpdateView
 from .forms import OrganizationForm
 from HR.models import Employee

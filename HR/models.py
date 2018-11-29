@@ -44,7 +44,7 @@ class Employee(models.Model):
     entryDate = models.DateField("入职日期", default=date.today)
     # 部门
     # depart = models.CharField("部门", max_length=10, default="0", null=True)
-    depart = models.ForeignKey("MyERP.Organization", to_field="nodeID", 
+    depart = models.ForeignKey("CORE.Organization", to_field="nodeID", 
                                 on_delete=models.CASCADE,db_column="depart",
                                 limit_choices_to={'level': 3}, #下拉选项过滤出3级部门名称
                                 verbose_name="部门")  
