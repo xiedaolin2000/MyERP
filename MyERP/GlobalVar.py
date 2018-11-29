@@ -22,11 +22,12 @@ class MessageIn(models.Model):
     
     #信息是所有者，也就是谁发出的信息
     sender = models.ForeignKey('HR.Employee',   on_delete=models.DO_NOTHING,  related_name="inSender" )
-
     #信息接收者
     receiver = models.ForeignKey('HR.Employee',  on_delete=models.DO_NOTHING,  related_name="inReceiver" )
     #消息是否已读
     read = models.BooleanField(verbose_name="是否已读", default=False)
+    #消息接收时间
+    inDatetime = models.DateTimeField(verbose_name="接收时间",auto_now=True)
     def __str__(self):
         return ("主题：%s 内容：%s"%(self.msgTitle, self.msgContent))
 
