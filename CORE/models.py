@@ -24,12 +24,12 @@ class Organization(models.Model):
     系统的组织结构图存储模型
     """
     # 0 表示根节点
-    nodeID     = models.IntegerField("节点编号", primary_key=True)
-    nodeName   = models.CharField("节点名称",max_length=50, blank=False, null=False)
+    nodeID     = models.IntegerField("部门编号", primary_key=True,auto_created=True)
+    nodeName   = models.CharField("部门名称",max_length=50, blank=False, null=False)
     #自己引用自己的数据，使用self关键字
-    nodeParent = models.ForeignKey('self',  on_delete=models.CASCADE, verbose_name="父节点")
+    nodeParent = models.ForeignKey('self',  on_delete=models.CASCADE, verbose_name="上级部门")
     #距离根节点深度
-    level      = models.IntegerField("节点深度", default = 1)
+    level      = models.IntegerField("几级部门", default = 1)
 
     def __str__(self):
         return self.nodeName
@@ -39,6 +39,8 @@ class company(object):
     CNShortName=""
     ENFullName=""
     CNFullName=""
+
+from django.contrib.auth.models import User
 
 class MessageIn(models.Model):
     '''
@@ -52,9 +54,9 @@ class MessageIn(models.Model):
     msgType = models.CharField(verbose_name = "类型",max_length=1, choices=(("I","收件箱"), ("O","发件箱")), default = "I" )
     
     #信息是所有者，也就是谁发出的信息
-    sender = models.ForeignKey('HR.Employee',   on_delete=models.DO_NOTHING,  related_name="inSender" )
+    sender = models.ForeignKey(User,   on_delete=models.DO_NOTHING,  related_name="inSender" )
     #信息接收者
-    receiver = models.ForeignKey('HR.Employee',  on_delete=models.DO_NOTHING,  related_name="inReceiver" )
+    receiver = models.ForeignKey(User,  on_delete=models.DO_NOTHING,  related_name="inReceiver" )
     #消息是否已读
     read = models.BooleanField(verbose_name="是否已读", default=False)
     #消息接收时间

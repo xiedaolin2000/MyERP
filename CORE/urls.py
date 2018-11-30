@@ -20,9 +20,9 @@ from .views import OrganizationUpdateView
 
 urlpatterns = [
     path('', HomePage, name="HomePage" ),
-    path('login', login),
     path('admin/', admin.site.urls),
     path('HR/', include("HR.urls")),
     path('success/', success),
     path('org/<int:pk>/', OrganizationUpdateView.as_view()),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]

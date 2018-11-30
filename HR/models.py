@@ -1,6 +1,8 @@
 from django.db import models
 from datetime import date
-# 人力资源规划、招聘与配置、培训与开发、绩效管理、薪酬福利管理、劳动关系管理 https://baike.baidu.com/item/%E4%BA%BA%E5%8A%9B%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E5%85%AD%E5%A4%A7%E6%A8%A1%E5%9D%97#2
+from django.contrib.auth.models import User
+# 人力资源规划、招聘与配置、培训与开发、绩效管理、薪酬福利管理、劳动关系管理 
+# https://baike.baidu.com/item/%E4%BA%BA%E5%8A%9B%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E5%85%AD%E5%A4%A7%E6%A8%A1%E5%9D%97#2
 
 # Create your models here.
 class Employee(models.Model):
@@ -12,7 +14,9 @@ class Employee(models.Model):
     # staff = models.OneToOneField(auth.user, primary_key=True, verbose_name="员工姓名")
     #staff = models.OneToOneField(User, primary_key=True, verbose_name="员工姓名")
     #员工姓名
-    userName = models.CharField("姓名", max_length=15, default="张三")
+    # userName = models.CharField("姓名", max_length=15, default="张三")
+    # 扩展Django用户属性
+    user = models.OneToOneField(User, primary_key=True, verbose_name="姓名",on_delete=models.CASCADE)
     #公司工号
     workNo = models.CharField("公司工号", max_length=15,default="B-12345")
     #华为工号
@@ -94,14 +98,14 @@ class Employee(models.Model):
     class Meta:
         ordering = ["-entryDate"]
     def __str__(self):
-        return self.userName
+        return self.user.username
 
 #离职员工
 class Demission(models.Model):
     '''
     记录离职员工相关信息
     '''
-    employee    = models.ForeignKey(Employee, on_delete=models.CASCADE,verbose_name="离职员工姓名")
+    employee    = models.ForeignKey(User, on_delete=models.CASCADE,verbose_name="离职员工姓名")
     #离职时间,auto_now = True 的话form表单里面就不显示
     dateLeave   = models.DateField (verbose_name = "离职时间", default=date.today)
     #离职原因分类
@@ -122,7 +126,7 @@ class Salary(models.Model):
     员工薪资调整的详细数据
     """
     #员工
-    Employee = models.ForeignKey(Employee,on_delete=models.CASCADE , verbose_name="员工")
+    Employee = models.ForeignKey(User,  on_delete=models.CASCADE , verbose_name="员工")
     #调薪生效日期，也就是说薪资是在几月份进行生效的
     applyDate = models.DateField("生效月份", default=date.today)
     #调薪幅度
@@ -145,7 +149,7 @@ class Performace(models.Model):
     Employee performance evaluation review
     """
     #关联员工表数据，多对一 ；外键要定义在‘多’的一方
-    Employee  = models.ForeignKey(Employee,on_delete=models.CASCADE, verbose_name="员工")
+    Employee  = models.ForeignKey(User,on_delete=models.CASCADE, verbose_name="员工")
 
     #绩效考察周期
     dateRange  = models.CharField(verbose_name ="考核周期", max_length=10, default="2018Q1", blank=False, null=False)  
@@ -171,7 +175,7 @@ class PerformaceDetail(models.Model):
     """
 
     #关联员工表数据，多对一 ；外键要定义在‘多’的一方
-    Employee     = models.ForeignKey(Employee,on_delete=models.CASCADE, verbose_name="员工")
+    Employee     = models.ForeignKey(User,on_delete=models.CASCADE, verbose_name="员工")
     
     #绩效考察周期
     dateRange  = models.CharField(verbose_name ="考核周期", max_length=10, default="2018Q1", blank=True, null=True)
