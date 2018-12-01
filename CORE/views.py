@@ -1,13 +1,13 @@
 
 from django.shortcuts import render
 from .models import Organization,MessageIn,company
-from django.views.generic.edit import CreateView,UpdateView
+from django.views.generic.edit import UpdateView
 from .forms import OrganizationForm
-from HR.models import Employee
-from django.contrib.auth.models import User
-from django.contrib.auth.views import LoginView,LogoutView
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-#这是网站的主页地址
+#这是网站的主页地址,需要登录
+@login_required
 def HomePage(request): 
     return render(request,"HomePage.html")
 
@@ -24,6 +24,5 @@ class OrganizationUpdateView(UpdateView):
     template_name = "OrganizationUpdateView.html"
 
 # 登录视图 LoginView https://docs.djangoproject.com/en/2.1/topics/auth/default/#django.contrib.auth.views.LoginView
-class UserLoginView(LoginView):
-    template_name="login.html"
+
     

@@ -12,7 +12,9 @@ def get_settings(request):
     c.CNFullName = "武汉佰钧成技术有限责任公司"
 
     #测试一个用户，查询出该登录用户有几条未读的消息
-    #admin=Employee.objects.get(pk=7)
-    admin=User.objects.get(pk=2)
-    MiniMails = admin.inReceiver.all()
+    #获取当前登录的用户，鉴权是否授权用户
+    MiniMails=None
+    user=request.user
+    if user.is_authenticated:
+        MiniMails = user.inReceiver.all()
     return({"corp":c,  "MiniMails":MiniMails})

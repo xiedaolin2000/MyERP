@@ -95,9 +95,14 @@ desired effect
 	   <!--------------------------
 	   | Your Page Content Here |
 	   -------------------------->
-	   {% block SubPageContent %}
-	   休息一下，暂未刷新出你要的页面o(╥﹏╥)o
-	   {% endblock SubPageContent %}
+	   {% if user.is_authenticated %}
+		{% block SubPageContent %}
+			休息一下，暂未刷新出你要的页面o(╥﹏╥)o
+		{% endblock SubPageContent %}
+	   {% else %}
+	   <strong>当前用户未登录，请登录后刷新页面</strong>
+	   {% endif %}
+	   
 	 </section>
 	 <!-- /.content --> 
   </div>
