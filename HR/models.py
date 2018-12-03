@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import date
+from django.contrib.auth.admin import User
 
 # Create your models here.
 #增加紧急联系人
@@ -171,11 +172,13 @@ class BackBone(models.Model):
     # 是否有小孩
     hasChild = models.BooleanField(verbose_name="是否有小孩", default=False)
     # 小孩性别
-    sexChild = models.CharField(verbose_name="小孩性别", max_length=10,  default="男孩")
+    childGender = models.CharField(verbose_name="小孩性别", max_length=10,  default="男孩")
     # 小孩年龄
-    birthChild = models.CharField(verbose_name="小孩年龄", max_length=10,  default="出生日期")
+    childAge = models.CharField(verbose_name="小孩年龄", max_length=10,  default="出生日期")
     # 个人兴趣爱好
     hobby = models.CharField(verbose_name="个人兴趣爱好", max_length=30,  default="游戏、音乐，运动，看书，看电影")
+    #看护责任人
+    backboneOwner = models.ForeignKey(User, related_name='backone', on_delete=models.CASCADE)
     def __str__(self):
         return '骨干员工档案信息'
     
@@ -184,11 +187,20 @@ class BackBoneOptRec(models.Model):
     '''
     骨干员工看护人责任维护记录，通过各种维护形式进行骨干维稳
     '''
-
+    #沟通时间
+    optDate=models.DateField(verbose_name="沟通时间", default=date.today)
+    #维护方式
+    optType = models.CharField(verbose_name="维护方式",  max_length=2, choices=(("0","谈话聊天"),("1","请客吃饭"),("2","赠送礼物"),("3","其它活动")))
+    #沟通方式
+    commType = models.CharField(verbose_name="沟通方式", max_length=2, choices=(("0","面对面"),   ("1","电话"),  ("2","邮件形式"), ("3","微信QQ等文本")) )
+    #沟通内容
+    content = models.CharField(verbose_name="沟通内容", max_length=300, blank=False, null=False)
+    #沟通地点
+    where = models.CharField(verbose_name="沟通地点",max_length=20,default="办公室")
+    #沟通人
+    who = models.ForeignKey(User,verbose_name="维护人员",on_delete= models.CASCADE)
     def __str__(self):
         return "骨干维护记录"
-
-
 
 
 
