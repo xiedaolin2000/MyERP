@@ -1,4 +1,6 @@
 {% extends "Base_APP.html" %}
+{% load crispy_forms_tags %}
+
 {% block SubPageHeader %}
 		添加人员
 {% endblock SubPageHeader%}
@@ -10,9 +12,11 @@
 {% block SubPageContent %}
 <form role="form" action="{% url 'Employee-add' %}" method="POST">
     {% csrf_token %}
-    <div class='row'> {#.row #}
+    {%crispy form%}
+    {% comment %} <div class='row'> {#.row #}
         <div class='col-md-4'>
             <div class="form-group">
+                {{ form.user.errors }}
                 {{form.user.label_tag}}
                 {{ form.user }}       
             </div>
@@ -155,7 +159,7 @@
                 {{ form.workStatus }}       
             </div>
         </div>
-    </div> {#.row #}
+    </div> {#.row #} {% endcomment %}
 
     <div class="box-footer">
         <button type="submit" class="btn btn-primary">添加</button>

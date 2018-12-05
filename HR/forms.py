@@ -1,11 +1,19 @@
 from django.forms import ModelForm
 from .models import Employee,Performace, Demission
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Submit
 
 class EmployeeForm(ModelForm):
     def __init__(self, *args, **kwargs):        
-        super(EmployeeForm, self).__init__(*args, **kwargs)        
-        for field in iter(self.fields):            
-            self.fields[field].widget.attrs.update({ 'class': 'form-control' })
+        super(EmployeeForm, self).__init__(*args, **kwargs)
+        #改用crispy_forms tag
+        # for field in iter(self.fields):            
+        #     self.fields[field].widget.attrs.update({ 'class': 'form-control' })
+        self.helper = FormHelper()
+        self.helper.form_method="post"
+        self.helper.form_tag = False
+        self.helper.form_action="{% url 'Employee-add' %}"
+        self.helper.add_input(Submit("submit","Save"))
     class Meta:
         model = Employee
         fields = '__all__'
