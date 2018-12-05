@@ -65,7 +65,7 @@ class Employee(models.Model):
     # 出生日期
     birthDay = models.DateField("出生日期", null=True,default=date.today)
     # 婚姻状况
-    #在前端显示时候 使用Model.get_FieldName_display() 函数获取显示值
+    #在前端模板显示时候 使用Model.get_FieldName_display() 函数获取显示值
     maritalStatus = models.CharField("婚姻状况", max_length=1, 
         choices=(('0','未婚'), ('1','已婚'), ('2','离异')), default="0")
   
@@ -73,6 +73,11 @@ class Employee(models.Model):
     address = models.CharField("住址", max_length=200, null=True)
     # 毕业院校
     graduatedSchool = models.CharField("毕业学校", max_length=20, null=True,default="大学")
+    
+    #是否211&985等学校,学校类型 一本，二本，三本，211,985
+    typeList = (("211","211"),("985","985"),("211/985","211/985"),("一本","一本"),("二本","二本"),("三本","三本"))
+    schoolType = models.CharField(verbose_name = "学校类型", choices=typeList, max_length=10, default="二本")    
+
     # 学历 
     # #在前端显示时候 使用Model.get_FieldName_display() 函数获取显示值
     education = models.CharField("学历", max_length=1,
@@ -81,6 +86,22 @@ class Employee(models.Model):
     profession = models.CharField("专业", max_length=20, null=True, default="")
     # 毕业时间
     graduatedDay = models.DateField("毕业日期", null=True,default=date.today)
+    #紧急联系人
+    emergencyContact = models.CharField("紧急联系人电话", max_length=15 )
+    #与紧急联系人关系
+    releations=(("爸爸","爸爸"),("妈妈","妈妈"),("哥哥","哥哥"),("弟弟","弟弟"),("姐姐","姐姐"),("妹妹","妹妹"),("丈夫","丈夫"),("妻子","妻子"),("儿子","儿子"),("女儿","女儿"),("朋友","朋友"),("其它","其它"))
+    emergencyReleation = models.CharField("紧急联系人关系", max_length=15 ,choices=releations, default="爸爸")
+
+    #主要技能
+    skills=(("JAVA","JAVA"),("C/C++","C/C++"),("测试","测试"),("其它","其它"))
+    majorSkill = models.CharField("主要技能", choices=skills, max_length=10,default="JAVA")
+
+    #员工角色
+    roles=(("PM","PM"),("DE","DE"),("TSE","TSE"),("普通员工","普通员工"))
+    role=models.CharField("角色", choices=roles, max_length=50,default="普通员工")
+
+    #用户头像地址
+    headPicPath=models.URLField(verbose_name="用户头像")
     
    #人员在职状态 用两位数字字符表现 XY: 
 	#（X=0 Y=0-9 归类为正常，基本计算正常成本，00 在职,01 出差，02 外出公干，03 调休；）
