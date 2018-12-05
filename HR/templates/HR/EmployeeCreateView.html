@@ -1,35 +1,41 @@
-{% extends "base.html" %}
+{% extends "Base_APP.html" %}
+{% block SubPageHeader %}
+		添加人员
+{% endblock SubPageHeader%}
+
+{%block SubPageDescription%}
+录入人员基本信息
+{%endblock SubPageDescription%}
+
 {% block SubPageContent %}
-<form role="form" action="/HR/add/" method="POST">
+<form role="form" action="{% url 'Employee-add' %}" method="POST">
     {% csrf_token %}
     <div class='row'> {#.row #}
         <div class='col-md-4'>
             <div class="form-group">
-                {# 姓名 #}
-                {{ form.userName.errors }}
-                {{ form.userName.label_tag }}
-                {{ form.userName }}       
+                {{form.user.label_tag}}
+                {{ form.user }}       
             </div>
             <div class="form-group">
-                {# 姓名 #}
+                {# 工号 #}
                 {{ form.workNo.errors }}
                 {{ form.workNo.label_tag }}
                 {{ form.workNo }}       
             </div>
             <div class="form-group">
-                {# 姓名 #}
+                {# 华为工号 #}
                 {{ form.workNoExt.errors }}
                 {{ form.workNoExt.label_tag }}
                 {{ form.workNoExt }}       
             </div>
             <div class="form-group">
-                {# 姓名 #}
+                {# 手机号 #}
                 {{ form.mobilePhone.errors }}
                 {{ form.mobilePhone.label_tag }}
                 {{ form.mobilePhone }}       
             </div>
             <div class="form-group">
-                {# 姓名 #}
+                {# 身份证 #}
                 {{ form.IDNo.errors }}
                 {{ form.IDNo.label_tag }}
                 {{ form.IDNo }}       

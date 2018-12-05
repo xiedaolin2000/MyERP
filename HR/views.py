@@ -6,6 +6,7 @@ from django.views.generic import ListView,DetailView
 from django.views.generic.edit import CreateView,DeleteView,UpdateView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 
 class EmployeeListView(LoginRequiredMixin,ListView):
     model = Employee
@@ -15,9 +16,11 @@ class EmployeeListView(LoginRequiredMixin,ListView):
     def get_queryset(self):
         #返回在职状态的人员
         return Employee.objects.filter(workStatus="00")
-class EmployeeDetailView(DetailView):
+
+class EmployeeDetailView(LoginRequiredMixin,DetailView):
     model = Employee
-    template_name='EmployeeDetailView.html'
+    context_object_name = 'employee'
+    template_name='HR/EmployeeDetailView.html'
 
 #通用编辑试图
 class EmployeeCreateView(CreateView):

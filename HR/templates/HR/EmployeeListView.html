@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "Base_APP.html" %}
 
 
 {% block SubPageHeader %}
@@ -29,7 +29,8 @@
   </thead>
     {% for p in Employee %}
       <tr>
-        <td>{{p.user.username}} </td>
+        {# 该字段是外键字段OneToOne字段 #}
+        <td> {{p.user.username}} </td>
         <td> {{p.workNo}}</td>       
         <td> {{p.mobilePhone}}</td>
         <td> {{p.IDNo}}</td>
@@ -40,8 +41,8 @@
         <td> {{p.depart}}</td>
         <td> {{p.get_education_display}}</td>
         <td> 
-          <a href="/HR/{{p.id}}/">详情</a>/
-          <a href="/HR/{{p.id}}/del">删除</a>
+          <a href="/HR/{{p.pk}}/">详情</a>/
+          <a href="/HR/{{p.pk}}/del">删除</a>
         </td>
       </tr>
     {% endfor %}    
@@ -53,18 +54,18 @@
 {% block JavaScriptRef %}
 {{block.super}}
 <script>
-$(document).ready( function () {
-    $('#dt_Employeelist').DataTable(
-      {
-        'scrollX':true,
-        'scrollY':true,
-        'autoWidth' : true,
-        'language':{
-              'url':"/static/bower_components/datatables.net/chinese.lang.json"
-            }
-      }
-    );
-} );
+  $(document).ready( function () {
+      $('#dt_Employeelist').DataTable(
+        {
+          'scrollX':true,
+          'scrollY':true,
+          'autoWidth' : true,
+          'language':{
+                'url':"/static/bower_components/datatables.net/chinese.lang.json"
+              }
+        }
+      );
+  } );
 </script>
 {% endblock JavaScriptRef %}
 

@@ -1,0 +1,112 @@
+{% extends "Base_APP.html" %}
+{%block SubPageHeader%}
+ {{ employee.user }}
+{%endblock SubPageHeader%}
+{%block SubPageDescription%}
+个人详细信息
+{%endblock SubPageDescription%}   
+{% block SubPageContent %}
+    <div class='row'> {#.row #}
+        <div class='col-md-4'>
+            <div >
+                <label>姓名：</label>
+                {{ employee.user }}  
+                {{ employee.user.email }}  
+            </div>
+
+            <div>
+                <label>工号：</label>
+                {{ employee.workNo }}       
+            </div>
+
+            <div>
+                <label>华为工号：</label>
+                {{ employee.workNoExt }}       
+            </div>
+            <div>
+                <label>手机号码：</label>
+                {{ employee.mobilePhone }}       
+            </div>
+            <div>
+                <label>身份证：</label>
+                {{ employee.IDNo }}       
+            </div>
+
+            <div >
+                <label>公司邮箱：</label>
+                {{ employee.email }}       
+            </div>
+            <div >
+                <label>华为邮箱：</label>
+                {{ employee.email2 }}       
+            </div>
+            <div >
+                <label>性别：</label>
+                {{ employee.get_sex_display }}       
+            </div>
+        </div>
+
+        <div class='col-md-4'>
+            <div >
+                <label>职级：</label>
+                {{ employee.level }}
+            </div>
+            <div >
+                <label>入职日期：</label>
+                {{ employee.entryDate }}       
+            </div>
+            <div >
+                <label>部门：</label>
+                {{ employee.depart }}       
+            </div>
+            <div >
+                <label>产品线：</label>
+                {{ employee.productUnit }}       
+            </div>
+            <div >
+                <label>籍贯省：</label>
+                {{ employee.provinceBirth }}       
+            </div>
+            <div >
+                <label>籍贯市：</label>
+                {{ employee.cityBirth }}       
+            </div>
+        </div>
+
+        <div class='col-md-4'>
+            <div >
+                <label>出生日期：</label>
+                {{ employee.birthDay }}
+            </div>
+            <div >
+                <label>婚否：</label>
+                {{ employee.get_maritalStatus_display }}       
+            </div>
+            <div >
+                <label>详细住址：</label>
+                {{ employee.address }}       
+            </div>
+            <div >
+                <label>毕业学校：</label>
+                {{ employee.graduatedSchool }}       
+            </div>
+            <div >
+                <label>学历：</label>
+                {{ employee.get_education_display }}       
+            </div>
+            <div >
+                <label>大学专业：</label>
+                {{ employee.profession }}       
+            </div>
+            <div >
+                <label>毕业日期：</label>
+                {{ employee.graduatedDay }}       
+            </div>
+            <div >
+                <label>人员状态：</label>
+                {{ employee.get_workStatus_display }}       
+            </div>
+        </div>
+    </div> {#.row #}
+
+{% endblock SubPageContent %}

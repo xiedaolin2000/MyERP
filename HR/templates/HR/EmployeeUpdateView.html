@@ -1,14 +1,14 @@
-{% extends "base.html" %}
+{% extends "Base_APP.html" %}
 {% block SubPageContent %}
-<form role="form" action="/HR/{{form.instance.pk}}/" method="POST">
+<form role="form" action="{% url 'Employee-update' form.instance.pk %}" method="POST">
     {% csrf_token %}
     <div class='row'> {#.row #}
         <div class='col-md-4'>
             <div class="form-group">
                 {# 姓名 #}
-                {{ form.userName.errors }}
-                {{ form.userName.label_tag }}
-                {{ form.userName }}       
+                {{ form.user.errors }}
+                {{ form.user.label_tag }}
+                {{ form.user }}       
             </div>
             <div class="form-group">
                 {# 姓名 #}
@@ -151,9 +151,9 @@
         </div>
     </div> {#.row #}
 
-    <div class="box-footer">
-        <button type="submit" class="btn btn-primary">保存</button>
-    </div>
+    
 </form>
-
+<footer class="main-footer">
+        <button type="submit" class="btn btn-primary">保存</button>
+</footer>
 {% endblock SubPageContent %}
