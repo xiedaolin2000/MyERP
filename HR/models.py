@@ -111,10 +111,10 @@ class Employee(models.Model):
         choices=(('00','在职'), ('11','请假'), ('99','离职')), default="00", blank=False, null=False)
 
   
-    def get_absolute_url(self):
-        from django.urls import reverse
-        # return reverse('EmployeeListView', kwargs={'pk': self.pk})
-        return reverse('EmployeeListView')
+    # def get_absolute_url(self):
+    #     from django.urls import reverse
+    #     # return reverse('EmployeeListView', kwargs={'pk': self.pk})
+    #     return reverse('EmployeeListView')
 
     class Meta:
         ordering = ["-entryDate"]

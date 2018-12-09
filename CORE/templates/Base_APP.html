@@ -56,7 +56,9 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 {% endcomment %}
-{% block bodyClass %} class = "hold-transition skin-blue sidebar-mini"{% endblock bodyClass %}
+{% block bodyClass %} 
+	class = "hold-transition skin-blue sidebar-mini"
+{% endblock bodyClass %}
 {% block body %}
 <div class="wrapper">
 
@@ -81,10 +83,13 @@ desired effect
 			{%endblock SubPageDescription%}   				
    			</small>
    		</h1>
+		{% comment %} 
+		不需要导航		   
    		<ol class="breadcrumb">
-   			<li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-   			<li class="active">Here</li>
-   		</ol>
+   			<li><a href="{% url 'HomePage'  %}"><i class="fa fa-dashboard"></i> 主页</a></li>
+   			<li class="breadcrumb-item active">Here</li>
+   		</ol>	 
+		{% endcomment %}
    	</section>
 	 
 	 <!-- Main content -->

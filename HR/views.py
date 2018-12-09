@@ -27,14 +27,14 @@ class EmployeeCreateView(CreateView):
     model = Employee
     form_class = EmployeeForm
     template_name='HR/EmployeeCreateView.html'
-    success_url = "/success/"
+    success_url = reverse_lazy('CORE:success')
     
 class EmployeeDeleteView(DeleteView):
     model = Employee
     context_object_name="Employee"
     template_name='HR/EmployeeConfirmDelete.html'
-    success_url = "/success/"
-    #我们必须在这里使用reverse_lazy()，而不是 reverse(),因为在导入文件时未加载URL
+    success_url = reverse_lazy('CORE:success')
+    #我们必须在这里使用 reverse_lazy()，而不是 reverse(),因为在导入文件时未加载URL
     # success_url = reverse_lazy('author-list')
 
 class EmployeeUpdateView(UpdateView):
@@ -49,6 +49,7 @@ class DemissionCreateView(CreateView):
     form_class = DemissionForm
     template_name='HR/DemissionCreateUpdateView.html'
     success_url = "/success/"
+
 #更新离职数据
 class DemissionUpdateView(UpdateView):
     model = Demission
@@ -56,6 +57,22 @@ class DemissionUpdateView(UpdateView):
     template_name='HR/DemissionCreateUpdateView.html'
     success_url = "/success/"
 # Create your views here.
+
+from django.db.models import Count
+def dashboard_HR(request):
+    #如果在分组统计的聚合函数的时候，如果模型设置了META.ordering，一定要用order_by()否则结果无法预料
+    sex_ratio = Employee.objects.values("sex").annotate(Count("sex")).order_by()
+    #获取模型中的下拉列表选项,是元组列表
+    t = Employee._meta.get_field('sex').choices
+    d = dict(t)
+    #把分组记录集中的编码转换为对应的显示名称，为什么在后台转换，而不在前台转换，是保持代码统一性 DRY（Don't Repeat Yourself），这样只要在models修改一次就可以
+    for s in sex_ratio:
+        s["sex"]=d[s["sex"]]
+    
+    #统计项目组人数
+
+    return render(request,template_name="HR/HR_DashBoard.html",context={"sex_ratio":sex_ratio})
+
 # 这是WebService接口返回Json格式
 def getEmployeeinfo(request):
     #WebService接口，返回json格式数据 参考https://simpleisbetterthancomplex.com/tutorial/2016/07/27/how-to-return-json-encoded-response.html

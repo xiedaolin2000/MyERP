@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from . import views
 from .views import getEmployeeinfo, addEmployeeInfo,modEmployeeInfo
 from .views import EmployeeListView
 from .views import EmployeeCreateView,EmployeeDeleteView,EmployeeUpdateView,EmployeeDetailView
@@ -23,7 +24,8 @@ from .views import DemissionCreateView,DemissionUpdateView
 urlpatterns = [
     #WebService 接口
     path('WS', getEmployeeinfo),
-    path('', EmployeeListView.as_view()),
+    path('',         views.dashboard_HR, name="dashboard-HR"),
+    path('list',         EmployeeListView.as_view(),name="Employee-list"),
     path('add/',         EmployeeCreateView.as_view(), name="Employee-add"),
     path('<int:pk>/',    EmployeeDetailView.as_view(), name="Employee-detail"),
     path('<int:pk>/upd', EmployeeUpdateView.as_view(), name="Employee-update"),
