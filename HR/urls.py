@@ -24,7 +24,7 @@ from .views import DemissionCreateView,DemissionUpdateView
 urlpatterns = [
     #WebService 接口
     path('WS', getEmployeeinfo),
-    path('',         views.dashboard_HR, name="dashboard-HR"),
+    path('',            views.dashboard_HR, name="dashboard-HR"),
     path('list',         EmployeeListView.as_view(),name="Employee-list"),
     path('add/',         EmployeeCreateView.as_view(), name="Employee-add"),
     path('<int:pk>/',    EmployeeDetailView.as_view(), name="Employee-detail"),

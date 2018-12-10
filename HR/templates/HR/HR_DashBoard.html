@@ -16,36 +16,71 @@
 {% block SubPageContent %}
 <div class="row">
 
-<div class="col-md-6">
-    
-    <canvas id="SEX-Ratio" width="400" height="400"></canvas>
-    <script>
-    var ctx = document.getElementById("SEX-Ratio").getContext('2d');
-    var myChart = new Chart(ctx, {
-    type: 'pie',
-    data: {        
-        labels: [{% for t in sex_ratio %} "{{t.sex}}", {% endfor %}],
-        datasets: [{
-            label: '男女分布',
-            data: [{% for t in sex_ratio %} {{t.sex__count}}, {% endfor %}],
-            backgroundColor: [                
+    <div class="col-md-6">
+        
+        <canvas id="SEX_Ratio" width="400" height="400"></canvas>
+        <script>
+        var ctx = document.getElementById("SEX_Ratio").getContext('2d');
+        var myChart = new Chart(ctx, {
+        type: 'pie',
+        data: {        
+            labels: [{% for t in sex_ratio %} "{{t.sex}}", {% endfor %}],
+            datasets: [{
+                label: '男女分布',
+                data: [{% for t in sex_ratio %} {{t.user__count}}, {% endfor %}],
+                backgroundColor: [                
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(100, 99, 132, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(100,99,132,1)'
+                    
+                ],
+                borderWidth: 1
+            }]
+        },
+        options:""
+        }
+    );
+        </script>
+    </div>
+    <div class="col-md-6">
+        <canvas id="prj_ratio" width="400" height="400"></canvas>
+        <script>
+        var ctx1 = document.getElementById("prj_ratio").getContext('2d');
+        var myChart = new Chart(ctx1, {
+        type: 'pie',
+        data: {        
+            labels: [{% for o in prj_ratio %} "{{o.depart__nodeName}}", {% endfor %}],
+            datasets: [{
+                label: '项目组人员分布',
+                data: [{% for o in prj_ratio %} {{o.user__count}}, {% endfor %}],
+                backgroundColor: [
                 'rgba(54, 162, 235, 0.2)',
+                'rgba(54, 200, 235, 0.2)',
+                'rgba(54, 230, 235, 0.2)',
+                'rgba(54, 100, 235, 0.2)',
+                'rgba(54, 70, 235, 0.2)',
                 'rgba(100, 99, 132, 0.2)'
-            ],
-            borderColor: [
-                'rgba(54, 162, 235, 1)',
-                'rgba(100,99,132,1)'
-                
-            ],
-            borderWidth: 1
-        }]
-    },
-    options:""
-    }
-);
-    </script>
-</div>
-<div class="col-md-6"></div>
+                ],
+                borderColor: [
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(100,99,132,1)'
+                    
+                ],
+                borderWidth: 1
+            }]
+        },
+        options:""
+        }
+    );
+        </script>
+    </div>
 </div>
 
 {% endblock SubPageContent %}

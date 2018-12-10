@@ -61,7 +61,7 @@ class DemissionUpdateView(UpdateView):
 from django.db.models import Count
 def dashboard_HR(request):
     #如果在分组统计的聚合函数的时候，如果模型设置了META.ordering，一定要用order_by()否则结果无法预料
-    sex_ratio = Employee.objects.values("sex").annotate(Count("sex")).order_by()
+    sex_ratio = Employee.objects.values("sex").annotate(Count("user")).order_by()
     #获取模型中的下拉列表选项,是元组列表
     t = Employee._meta.get_field('sex').choices
     d = dict(t)
@@ -69,9 +69,9 @@ def dashboard_HR(request):
     for s in sex_ratio:
         s["sex"]=d[s["sex"]]
     
-    #统计项目组人数
-
-    return render(request,template_name="HR/HR_DashBoard.html",context={"sex_ratio":sex_ratio})
+    #统计项目组人数,多表关联查询 范例
+    prj_ratio=Employee.objects.values("depart__nodeName").annotate(Count("user")).order_by()
+    return render(request,template_name="HR/HR_DashBoard.html", context={ "sex_ratio":sex_ratio, "prj_ratio":prj_ratio} )
 
 # 这是WebService接口返回Json格式
 def getEmployeeinfo(request):
