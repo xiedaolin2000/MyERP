@@ -101,7 +101,7 @@ class Employee(models.Model):
     role=models.CharField("角色", choices=roles, max_length=50,default="普通员工")
 
     #用户头像地址
-    headPicPath=models.URLField(verbose_name="用户头像")
+    headPicPath=models.CharField(verbose_name="用户头像", default="headPicture.jpg")
     
    #人员在职状态 用两位数字字符表现 XY: 
 	#（X=0 Y=0-9 归类为正常，基本计算正常成本，00 在职,01 出差，02 外出公干，03 调休；）
