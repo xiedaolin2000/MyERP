@@ -194,15 +194,14 @@ class BackBoneOptRec(models.Model):
     #沟通方式
     commType = models.CharField(verbose_name="沟通方式", max_length=2, choices=(("0","面对面"),   ("1","电话"),  ("2","邮件形式"), ("3","微信QQ等文本")) )
     #沟通内容
-    content = models.CharField(verbose_name="沟通内容", max_length=300, blank=False, null=False)
+    # content = models.CharField(verbose_name="沟通内容", max_length=300, blank=False, null=False)
+    content = models.TextField(verbose_name="沟通内容")
     #沟通地点
     where = models.CharField(verbose_name="沟通地点",max_length=20,default="办公室")
     #沟通人
     who = models.ForeignKey(User,verbose_name="维护人员",on_delete= models.CASCADE)
     def __str__(self):
         return "骨干维护记录"
-
-
 
 #员工考勤明细记录
 class AttendanceDetail(models.Model):
