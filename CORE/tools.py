@@ -1,5 +1,8 @@
 from openpyxl import load_workbook
-
+from django.contrib.auth.models import User
+from CORE.models import Organization
+from HR.models import Employee
+from django.contrib.auth.hashers import make_password
 
 def import_Excel(srcFile):
     # wb = load_workbook(r"E:\OneDrive\Work\billjc\区域研发中心\人力资源\在职&离职名单\南京在职&amp;离职名单--2018.5.11.xlsx",data_only=True)
@@ -9,7 +12,7 @@ def import_Excel(srcFile):
     # colIDX_DES=["A","B"]
     # 花名册Excel表格中，列名称对应的数据库字段属性，key是列名，value是字段属性
     colIDX_Fields_Mapping = {
-        "A":"id",
+        "A":"user_id",
         "B":"workNo",
         "C":"workNoExt",
         "D":"userName", #姓名
@@ -49,16 +52,47 @@ def import_Excel(srcFile):
     #     p.save()
     #生成SQL语句
     #数据从第二行开始读取，第一行是标题
-    for row in range(2,usedRowCount):        
-        fieldSQL = ""
-        vlsSQL = ""
-        for colName,fieldName  in colIDX_Fields_Mapping.items():
-            fieldSQL = fieldSQL +" "+ fieldName
-            print(sht["%s%i" % (colName,row)].value)
-            vlsSQL   = vlsSQL +" "+ str( sht["%s%i" % (colName,row)].value)
-        insSQL = "row=%i=>INSERT INTO HR_employee (%s) values(%s)"%(row,fieldSQL, vlsSQL)
-        print(insSQL)
+    # for row in range(2,usedRowCount):        
+    #     fieldSQL = ""
+    #     vlsSQL = ""
+    #     for colName,fieldName  in colIDX_Fields_Mapping.items():
+    #         if fieldSQL !="":
+    #             fieldSQL = fieldSQL + ", " + fieldName
+    #             vlsSQL   = vlsSQL +(", '%s'")%str( sht["%s%i" % (colName,row)].value)
+    #         else:
+    #             fieldSQL = fieldName
+    #             vlsSQL   = ("'%s'")%str( sht["%s%i" % (colName,row)].value)
+            
+    #     insSQL = "row=%i=>INSERT INTO HR_employee (%s) values(%s)"%(row,fieldSQL, vlsSQL)
+    #     print(insSQL)
 
+    for row in range(2, usedRowCount):
+        user = User() #创建系统用户对象
+        employee = Employee()        
+        for colName, fieldName  in colIDX_Fields_Mapping.items():
+            v = sht["%s%i" % (colName, row) ].value
+            if fieldName == "user_id":
+                user.id = v
+            elif fieldName == "workNo":
+                user.username = v
+            elif fieldName == "email":
+                user.email = v
+                employee.email = v
+            elif fieldName == "userName":
+                user.username = user.username + v
+                employee.userName = v
+                user.password= make_password("123456")
+            #读取到项目组列
+            elif fieldName == "projectName":
+                depart = Organization.objects.get(pk = v)
+                employee.depart = depart
+            else:
+                employee.__setattr__ ( fieldName, sht["%s%i" % (colName,row)].value )
+        user.save()
+        employee.user = user
+        employee.save()
+        msg= ("第%i/%i个，姓名：%s 数据导入完毕。")%(row - 1, usedRowCount - 1, user.username)
+        print(msg)
 
 def initData(*args):
     """初始化数据"""

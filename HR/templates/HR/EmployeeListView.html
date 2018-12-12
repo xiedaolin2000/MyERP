@@ -24,13 +24,15 @@
     <th scope="col">入职日期</th>
     <th scope="col">项目组</th>
     <th scope="col">学历</th>
+    <th scope="col">学校</th>
+    <th scope="col">专业</th>
     <th scope="col">操作</th>
   </tr>
   </thead>
     {% for p in Employee %}
       <tr>
         {# 该字段是外键字段OneToOne字段 #}
-        <td> {{p.user.username}} </td>
+        <td> {{p.userName}} </td>
         <td> {{p.workNo}}</td>       
         <td> {{p.mobilePhone}}</td>
         <td> {{p.IDNo}}</td>
@@ -40,6 +42,8 @@
         <td> {{p.entryDate|date:"y-m-d"}}</td>       
         <td> {{p.depart}}</td>
         <td> {{p.get_education_display}}</td>
+        <td> {{p.graduatedSchool}}</td>
+        <td> {{p.profession}}</td>
         <td> 
           <a href="/HR/{{p.pk}}/">详情</a>/
           <a href="/HR/{{p.pk}}/del">删除</a>

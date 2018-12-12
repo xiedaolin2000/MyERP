@@ -14,7 +14,7 @@ class Employee(models.Model):
     # staff = models.OneToOneField(auth.user, primary_key=True, verbose_name="员工姓名")
     #staff = models.OneToOneField(User, primary_key=True, verbose_name="员工姓名")
     #员工姓名
-    # userName = models.CharField("姓名", max_length=15, default="张三")
+    userName = models.CharField("姓名", max_length=15, default="张三")
     # 扩展Django用户属性
     user = models.OneToOneField(User, primary_key=True, verbose_name="姓名",on_delete=models.CASCADE)
     #公司工号
@@ -101,7 +101,7 @@ class Employee(models.Model):
     role=models.CharField("角色", choices=roles, max_length=50,default="普通员工")
 
     #用户头像地址
-    headPicPath=models.CharField(verbose_name="用户头像", default="headPicture.jpg")
+    headPicPath=models.CharField(verbose_name="用户头像",max_length=100, default="headPicture.jpg")
     
    #人员在职状态 用两位数字字符表现 XY: 
 	#（X=0 Y=0-9 归类为正常，基本计算正常成本，00 在职,01 出差，02 外出公干，03 调休；）
