@@ -1,5 +1,6 @@
 from django.forms import ModelForm
-from .models import Employee,Performace, Demission
+from .models import Employee,Performace, Demission,BackBone
+from django.urls import reverse_lazy
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 
@@ -17,12 +18,26 @@ class EmployeeForm(ModelForm):
     class Meta:
         model = Employee
         fields = '__all__'
-        # fields = ['userName','']
-    
-    
+        # fields = ['userName','']    
     def __str__(self):
         return
 
+class BackBoneForm(ModelForm):
+    def __init__(self, *args, **kwargs):        
+        super(BackBoneForm, self).__init__(*args, **kwargs)
+        #改用crispy_forms tag
+        # for field in iter(self.fields):            
+        #     self.fields[field].widget.attrs.update({ 'class': 'form-control' })
+        self.helper = FormHelper()
+        self.helper.form_method="post"
+        self.helper.form_tag = False
+        self.helper.form_action= reverse_lazy("BackBone-add")
+        self.helper.add_input(Submit("submit","保存"))
+    class Meta:
+        model = BackBone
+        fields = '__all__'        
+    def __str__(self):
+        return
 class PerformaceForm(ModelForm):
     def __init__(self, *args, **kwargs):        
         super(PerformaceForm, self).__init__(*args, **kwargs)        

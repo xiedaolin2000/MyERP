@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from . import views
 from .views import getEmployeeinfo, addEmployeeInfo,modEmployeeInfo
-from .views import EmployeeListView
+from .views import EmployeeListView, BackBoneCreateView
 from .views import EmployeeCreateView,EmployeeDeleteView,EmployeeUpdateView,EmployeeDetailView
 from .views import DemissionCreateView,DemissionUpdateView
 
@@ -30,6 +30,8 @@ urlpatterns = [
     path('<int:pk>/',    EmployeeDetailView.as_view(), name="Employee-detail"),
     path('<int:pk>/upd', EmployeeUpdateView.as_view(), name="Employee-update"),
     path('<int:pk>/del', EmployeeDeleteView.as_view(), name="Employee-delete"),
+    #骨干员工
+    path('bone/',        BackBoneCreateView.as_view(), name="BackBone-add"),
     #离职手续
     path('leave/',         DemissionCreateView.as_view(), name="Demission-add"),
     path('<int:pk>/leave', DemissionUpdateView.as_view(), name="Demission-update"),

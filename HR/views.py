@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse,HttpResponseRedirect,Http404
-from .models import Employee,Demission
-from .forms import EmployeeForm,DemissionForm
+from .models import Employee,Demission, BackBone
+from .forms import EmployeeForm,DemissionForm,BackBoneForm
 from django.views.generic import ListView,DetailView
 from django.views.generic.edit import CreateView,DeleteView,UpdateView
 from django.urls import reverse_lazy
@@ -41,6 +41,12 @@ class EmployeeUpdateView(UpdateView):
     model = Employee
     form_class = EmployeeForm
     template_name='HR/EmployeeUpdateView.html'
+    success_url = "/success/"
+
+class BackBoneCreateView(CreateView):
+    model = BackBone
+    form_class = BackBoneForm
+    template_name='HR/BackBoneUpdateView.html'
     success_url = "/success/"
 
 #办理离职

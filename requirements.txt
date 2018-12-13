@@ -2,4 +2,4 @@
 django==2.1.2
 django-crispy-forms==1.7.2
 django-debug-toolbar==1.10.1
-openpyxl==2.5.9
+openpyxl==2.5.12

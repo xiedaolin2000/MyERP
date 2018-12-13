@@ -10,7 +10,7 @@
 {%endblock SubPageDescription%}
 
 {% block SubPageContent %}
-<form role="form" action="{% url 'Employee-add' %}" method="POST">
+<form role="form">
     {% csrf_token %}
     {%crispy form%}
     {% comment %} <div class='row'> {#.row #}
