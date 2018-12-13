@@ -29,6 +29,6 @@ INSERT INTO CORE_organization(nodeID,nodeName,level,nodeParent_id) VALUES('22','
 INSERT INTO CORE_organization(nodeID,nodeName,level,nodeParent_id) VALUES('23','NCE-WAN委托测试项目','4','8');
 
 --软件平台项目
-INSERT INTO CORE_organization(nodeID,nodeName,level,nodeParent_id) VALUES('23','NOS-Fenix自动化脚本测试项目','4','9');
-INSERT INTO CORE_organization(nodeID,nodeName,level,nodeParent_id) VALUES('23','NOS-NIPP_OAM开发项目','4','9');
-INSERT INTO CORE_organization(nodeID,nodeName,level,nodeParent_id) VALUES('23','NOS-AW&性能脚本测试项目','4','9');
+INSERT INTO CORE_organization(nodeID,nodeName,level,nodeParent_id) VALUES('24','NOS-Fenix自动化脚本测试项目','4','9');
+INSERT INTO CORE_organization(nodeID,nodeName,level,nodeParent_id) VALUES('25','NOS-NIPP_OAM开发项目','4','9');
+INSERT INTO CORE_organization(nodeID,nodeName,level,nodeParent_id) VALUES('26','NOS-AW&性能脚本测试项目','4','9');

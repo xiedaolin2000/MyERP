@@ -120,7 +120,7 @@ class Employee(models.Model):
     class Meta:
         ordering = ["-entryDate"]
     def __str__(self):
-        return self.user.username
+        return self.userName
 
 #离职员工
 class Demission(models.Model):
@@ -139,7 +139,7 @@ class Demission(models.Model):
     # models.datetime(verbose_name = "离职时间",default = date.today())
 
     def __str__(self):
-        return employee
+        return "leave"
 
 
 #薪资调整记录

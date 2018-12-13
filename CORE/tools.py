@@ -75,11 +75,13 @@ def import_Excel(srcFile):
                 user.id = v
             elif fieldName == "workNo":
                 user.username = v
+                employee.workNo = v               
             elif fieldName == "email":
                 user.email = v
                 employee.email = v
             elif fieldName == "userName":
-                user.username = user.username + v
+                user.first_name = v
+                user.last_name = v
                 employee.userName = v
                 user.password= make_password("123456")
             #读取到项目组列
@@ -98,8 +100,8 @@ def initData(*args):
     """初始化数据"""
 
 def main(*args,**kwargs):
-    print("run here")
-    import_Excel(r"E:\Workspace\MyERP\testdata.xlsx")
+    print("===import data===")
+    import_Excel(r"demo\testdata.xlsx")
 
 
 if __name__ == "__main__":
