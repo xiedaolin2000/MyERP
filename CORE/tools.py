@@ -6,7 +6,7 @@ from django.contrib.auth.hashers import make_password
 
 def import_Excel(srcFile):
     # wb = load_workbook(r"E:\OneDrive\Work\billjc\区域研发中心\人力资源\在职&离职名单\南京在职&amp;离职名单--2018.5.11.xlsx",data_only=True)
-    wb = load_workbook(srcFile, data_only=True)
+    wb = load_workbook(srcFile, data_only=True )
     sht = wb["人员信息"]
     # colIDX_SRC=["A","B"]
     # colIDX_DES=["A","B"]
@@ -38,6 +38,7 @@ def import_Excel(srcFile):
         "AA":"email",  #佰钧成邮箱  
         "AB":"workStatus",  #佰钧成邮箱          
         "AC":"address", #居住地址
+        "AD":"headPicPath", #员工头像
         }
     usedRowCount = sht.max_row
     # usedRowCount = 10
@@ -65,12 +66,17 @@ def import_Excel(srcFile):
             
     #     insSQL = "row=%i=>INSERT INTO HR_employee (%s) values(%s)"%(row,fieldSQL, vlsSQL)
     #     print(insSQL)
-
-    for row in range(2, usedRowCount):
+    # ------------------------------------------------------------------------------------
+    # range(start, stop[, step])
+    # start: 计数从 start 开始。默认是从 0 开始。例如range（5）等价于range（0， 5）;
+    # stop: 计数到 stop 结束，但不包括 stop。例如：range（0， 5） 是[0, 1, 2, 3, 4]没有5
+    # step：步长，默认为1。例如：range（0， 5） 等价于 range(0, 5, 1)
+    for row in range(0, usedRowCount):
         user = User() #创建系统用户对象
-        employee = Employee()        
+        employee = Employee()
+        sheetRow = row + 2   #sheet行号 第一行不读取
         for colName, fieldName  in colIDX_Fields_Mapping.items():
-            v = sht["%s%i" % (colName, row) ].value
+            v = sht["%s%i" % (colName, sheetRow) ].value
             if fieldName == "user_id":
                 user.id = v
             elif fieldName == "workNo":
@@ -89,11 +95,11 @@ def import_Excel(srcFile):
                 depart = Organization.objects.get(pk = v)
                 employee.depart = depart
             else:
-                employee.__setattr__ ( fieldName, sht["%s%i" % (colName,row)].value )
+                employee.__setattr__ ( fieldName, sht["%s%i" % (colName, sheetRow)].value )
         user.save()
         employee.user = user
         employee.save()
-        msg= ("第%i/%i个，姓名：%s 数据导入完毕。")%(row - 1, usedRowCount - 1, user.username)
+        msg= ("第%i/%i个，姓名：%s 工号：%s 数据导入完毕。")%((sheetRow - 1), (usedRowCount - 1), employee.userName, employee.workNo)
         print(msg)
 
 def initData(*args):
