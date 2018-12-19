@@ -71,17 +71,24 @@ def import_Excel(srcFile):
     # start: 计数从 start 开始。默认是从 0 开始。例如range（5）等价于range（0， 5）;
     # stop: 计数到 stop 结束，但不包括 stop。例如：range（0， 5） 是[0, 1, 2, 3, 4]没有5
     # step：步长，默认为1。例如：range（0， 5） 等价于 range(0, 5, 1)
-    for row in range(0, usedRowCount):
+    
+    #sheet行号 第一行标题不读取,所以数据值应该减少一次循环
+    for row in range(1, usedRowCount ):
         user = User() #创建系统用户对象
         employee = Employee()
-        sheetRow = row + 2   #sheet行号 第一行不读取
+        sheetRow = row + 1 #Sheet表的行号和循环下标对应 应该加1
         for colName, fieldName  in colIDX_Fields_Mapping.items():
             v = sht["%s%i" % (colName, sheetRow) ].value
             if fieldName == "user_id":
                 user.id = v
-            elif fieldName == "workNo":
+            elif fieldName == "workNo":                
                 user.username = v
-                employee.workNo = v               
+                employee.workNo = v 
+                if v == "B-12110":
+                    print("workNo==v==%s"%v)
+                    user.is_superuser = True
+                    user.password= make_password("1qaz@WSX")
+                    continue
             elif fieldName == "email":
                 user.email = v
                 employee.email = v
@@ -90,6 +97,7 @@ def import_Excel(srcFile):
                 user.last_name = v
                 employee.userName = v
                 user.password= make_password("123456")
+
             #读取到项目组列
             elif fieldName == "projectName":
                 depart = Organization.objects.get(pk = v)
@@ -99,7 +107,7 @@ def import_Excel(srcFile):
         user.save()
         employee.user = user
         employee.save()
-        msg= ("第%i/%i个，姓名：%s 工号：%s 数据导入完毕。")%((sheetRow - 1), (usedRowCount - 1), employee.userName, employee.workNo)
+        msg= ("第%i/%i个，姓名：%s 工号：%s 数据导入完毕。")%( row , (usedRowCount - 1), employee.userName, employee.workNo)
         print(msg)
 
 def initData(*args):
