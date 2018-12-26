@@ -87,11 +87,11 @@ class Employee(models.Model):
     profession = models.CharField("专业", max_length=20, null=True, default="")
     # 毕业时间
     graduatedDay = models.DateField("毕业日期", null=True,default=date.today)
-    #紧急联系人
-    emergencyContact = models.CharField("紧急联系人电话", max_length=15 )
+    #紧急联系人联系方式
+    emergencyContact = models.CharField("紧急联系电话", max_length=15 )
     #与紧急联系人关系
     releations=(("爸爸","爸爸"),("妈妈","妈妈"),("哥哥","哥哥"),("弟弟","弟弟"),("姐姐","姐姐"),("妹妹","妹妹"),("丈夫","丈夫"),("妻子","妻子"),("儿子","儿子"),("女儿","女儿"),("朋友","朋友"),("其它","其它"))
-    emergencyReleation = models.CharField("紧急联系人关系", max_length=15 ,choices=releations, default="爸爸")
+    emergencyReleation = models.CharField("紧急联系人", max_length=15 ,choices=releations, default="爸爸")
 
     #主要技能
     skills=(("JAVA","JAVA"),("C/C++","C/C++"),("测试","测试"),("其它","其它"))

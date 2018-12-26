@@ -10,9 +10,8 @@
 {%endblock SubPageDescription%}
 
 {% block SubPageContent %}
-<form role="form">
-    {% csrf_token %}
-    {%crispy form%}
+
+    {% crispy form %}
     {% comment %} <div class='row'> {#.row #}
         <div class='col-md-4'>
             <div class="form-group">
@@ -161,10 +160,6 @@
         </div>
     </div> {#.row #} {% endcomment %}
 
-    <div class="box-footer">
-        <button type="submit" class="btn btn-primary">添加</button>
-    </div>
-</form>
 
 {% comment %} 
  <div class='col-md-6'>
