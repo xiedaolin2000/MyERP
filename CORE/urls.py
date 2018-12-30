@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.conf import settings
 from django.urls import path, include
 from .views import HomePage,success
 from .views import OrganizationUpdateView
@@ -22,7 +23,12 @@ urlpatterns = [
     path('', HomePage, name="HomePage" ),
     path('admin/', admin.site.urls),
     path('HR/', include("HR.urls")),
-    path('success/', success,name="success"),
+    path('ok/', success, name="success"),
     path('org/<int:pk>/', OrganizationUpdateView.as_view()),
     path('accounts/', include('django.contrib.auth.urls')),
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns.append(path("__debug__/", include(debug_toolbar.urls)))
+

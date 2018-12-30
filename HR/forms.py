@@ -13,11 +13,11 @@ class EmployeeForm(ModelForm):
         self.helper = FormHelper()
         self.helper.form_method="POST"
         # self.helper.form_action="{% url 'Employee-add' %}"
-        self.helper.form_action="Employee-add"
+        # self.helper.form_action="Employee-add"
         self.helper.layout = Layout(
             Fieldset(
                 "人员基本信息",
-                Row(
+                Row(                    
                     Column("userName"   , css_class="col-sm-4"),
                     Column("workNo"     , css_class="col-sm-4"),
                     Column("IDNo"       , css_class="col-sm-4")                                     
@@ -50,35 +50,44 @@ class EmployeeForm(ModelForm):
             Fieldset(
                 "项目信息",
                 Row(
-                    Column("role"          , css_class="col-sm-2"),
-                    Column("level"          , css_class="col-sm-2"),
-                    Column("majorSkill"     , css_class="col-sm-2")
+                    Column("role"          , css_class="col-sm-4"),
+                    Column("level"          , css_class="col-sm-4"),
+                    Column("majorSkill"     , css_class="col-sm-4")
                     ),
                 Row(                    
-                    Column("productUnit"    , css_class="col-sm-6"),
-                    Column("depart"         , css_class="col-sm-6")
+                    Column("depart"    ,    css_class="col-sm-4"),
+                    Column("projectName",   css_class="col-sm-4")
                     ),
             ),
             Fieldset(
                 "毕业学校",
                 Row(
-                    Column("graduatedSchool", css_class="col-sm-6"),
-                    Column("profession", css_class="col-sm-6"),
+                    Column("graduatedSchool",   css_class="col-sm-4"),
+                    Column("profession",        css_class="col-sm-4"),
+                    Column("schoolType",        css_class="col-sm-4")
                 ),
                 Row(
-                    Column("schoolType", css_class="col-sm-2"),
-                    Column("education", css_class="col-sm-2"),
-                    Column("graduatedDay", css_class="col-sm-2"),
+                    
+                    Column("education",         css_class="col-sm-4"),
+                    Column("graduatedDay",      css_class="col-sm-4"),
                 ),
-            )
+            ),
+            "user",
+            "headPicPath"
+
         )
         self.helper.add_input(Submit("submit","保存"))
+
     class Meta:
         model = Employee
         fields = '__all__'
         # fields = ['userName','']    
     def __str__(self):
         return
+
+
+        
+            
 
 class BackBoneForm(ModelForm):
     def __init__(self, *args, **kwargs):        

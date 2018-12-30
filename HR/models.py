@@ -17,7 +17,7 @@ class Employee(models.Model):
     #员工姓名
     userName = models.CharField("姓名", max_length=15, default="张三")
     # 扩展Django用户属性
-    user = models.OneToOneField(User, primary_key=True, verbose_name="姓名",on_delete=models.CASCADE)
+    user = models.OneToOneField(User, primary_key=True, verbose_name="姓名",on_delete=models.CASCADE, editable=False)
     #公司工号
     workNo = models.CharField("公司工号", max_length=15,default="B-12345")
     #华为工号
@@ -29,7 +29,7 @@ class Employee(models.Model):
     #电子邮箱
     email = models.EmailField("电子邮箱", max_length=50, null=True)
     #电子邮箱2
-    email2 = models.EmailField("华为邮箱", max_length=50, null=True)
+    email2 = models.EmailField("华为邮箱", max_length=50,blank = True, null=True)
 
     #性别字段只能是0或1的值，元组第一位表示保存的值，第二位表示显示的值
     #在前端显示时候 使用Model.get_FieldName_display() 函数获取显示值
@@ -47,22 +47,21 @@ class Employee(models.Model):
     level = models.CharField("岗位级别", max_length=4, choices=levelList, default="4A")
     # 到岗日期/入职日期
     entryDate = models.DateField("入职日期", default=date.today)
+
     # 部门
-    # depart = models.CharField("部门", max_length=10, default="0", null=True)
     depart = models.ForeignKey("CORE.Organization", to_field="nodeID", 
                                 on_delete=models.CASCADE,db_column="depart",
                                 limit_choices_to={'level': 3}, #下拉选项过滤出3级部门名称
                                 verbose_name="部门")  
     
     # 业务线
-    productUnit = models.CharField("产品线", max_length=10, default="0",null=True)
-    # 项目组,depart使用了组织结构外键引用不需要项目组名称了
-    # projectName = models.CharField("项目组名", max_length=20, default="0",null=True)
-   
+    # productUnit = models.CharField("产品线", max_length=10, default="0",null=True)
+    # 项目组
+    projectName = models.CharField("项目组名称", max_length=20, default="0",blank = True, null=True)   
     # 籍贯省
-    provinceBirth = models.CharField("籍贯省份", max_length=20,null=True, default="江苏省")
+    provinceBirth = models.CharField("籍贯省份", max_length=20, blank = True, null=True, default="江苏省")    
     # 籍贯市
-    cityBirth = models.CharField("籍贯市", max_length=20,null=True, default="南京市")
+    cityBirth = models.CharField("籍贯市", max_length=20,blank = True,  null=True, default="南京市")
     # 出生日期
     birthDay = models.DateField("出生日期", null=True,default=date.today)
     # 婚姻状况
@@ -82,7 +81,7 @@ class Employee(models.Model):
     # 学历 
     # #在前端显示时候 使用Model.get_FieldName_display() 函数获取显示值
     education = models.CharField("学历", max_length=1,
-    choices=(('0', '小学'), ('1', '初中'), ('2', '高中'), ('3', '大专'), ('4', '本科'), ('5', '研究生')),null=True, default="4")
+        choices=(('0', '小学'), ('1', '初中'), ('2', '高中'), ('3', '大专'), ('4', '本科'), ('5', '研究生')),null=True, default="4")
     # 大学专业名称
     profession = models.CharField("专业", max_length=20, null=True, default="")
     # 毕业时间
@@ -91,7 +90,7 @@ class Employee(models.Model):
     emergencyContact = models.CharField("紧急联系电话", max_length=15 )
     #与紧急联系人关系
     releations=(("爸爸","爸爸"),("妈妈","妈妈"),("哥哥","哥哥"),("弟弟","弟弟"),("姐姐","姐姐"),("妹妹","妹妹"),("丈夫","丈夫"),("妻子","妻子"),("儿子","儿子"),("女儿","女儿"),("朋友","朋友"),("其它","其它"))
-    emergencyReleation = models.CharField("紧急联系人", max_length=15 ,choices=releations, default="爸爸")
+    emergencyReleation = models.CharField("紧急联系人", max_length=15 ,choices=releations,blank = True,null=True, default="爸爸")
 
     #主要技能
     skills=(("JAVA","JAVA"),("C/C++","C/C++"),("测试","测试"),("其它","其它"))
@@ -109,8 +108,23 @@ class Employee(models.Model):
 	#（X=1 Y=0-9 归类为福利请假：01 婚假，02 陪产假，03 病假，04 丧假，05 产假，06产检假，07 哺乳假）
 	#（X=9 Y=0-9 归类为不在职：90 离职，91 辞退）
     workStatus = models.CharField(verbose_name = "工作状态", max_length=5, 
-        choices=(('00','在职'), ('11','请假'), ('99','离职')), default="00", blank=False, null=False)
+        choices=(('00','在职'), ('11','请假'), ('99','离职')), 
+        default="00", blank=False, null=False,editable=False)
 
+    #重写该对象的保存方法，必须先保存系统鉴权的User对象    
+    def save(self, *args, **kwargs): 
+        #通过self._state.adding 判断是否新增还是更新
+        if self._state.adding:
+            print("user id===== NULL")
+            authUser = User()
+            authUser.username = self.userName
+            authUser.email    = self.email
+            authUser.first_name = self.userName[0:1]
+            authUser.last_name  = self.userName[1:]
+            authUser.save()
+            self.user = authUser
+        #调用父类方法进行保存数据
+        super().save( *args, **kwargs) # Call the real save() method
   
     # def get_absolute_url(self):
     #     from django.urls import reverse
@@ -140,7 +154,6 @@ class Demission(models.Model):
 
     def __str__(self):
         return "leave"
-
 
 #薪资调整记录
 class Salary(models.Model):

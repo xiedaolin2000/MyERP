@@ -1,0 +1,16 @@
+{% extends "Base_APP.html" %}
+{% load crispy_forms_tags %}
+
+{% block SubPageHeader %}
+		添加人员
+{% endblock SubPageHeader%}
+
+{%block SubPageDescription%}
+录入人员基本信息
+{%endblock SubPageDescription%}
+
+{% block SubPageContent %}
+
+    {% crispy form %}
+   
+{% endblock SubPageContent %}

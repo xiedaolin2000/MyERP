@@ -93,8 +93,8 @@ def import_Excel(srcFile):
                 user.email = v
                 employee.email = v
             elif fieldName == "userName":
-                user.first_name = v
-                user.last_name = v
+                user.first_name = v[0:1]
+                user.last_name = v[1:]
                 employee.userName = v
                 user.password= make_password("123456")
 

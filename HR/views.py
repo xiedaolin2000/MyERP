@@ -4,7 +4,7 @@ from .models import Employee,Demission, BackBone
 from .forms import EmployeeForm,DemissionForm,BackBoneForm
 from django.views.generic import ListView,DetailView
 from django.views.generic.edit import CreateView,DeleteView,UpdateView
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 
@@ -23,25 +23,37 @@ class EmployeeDetailView(LoginRequiredMixin,DetailView):
     template_name='HR/EmployeeDetailView.html'
 
 #通用编辑试图
-class EmployeeCreateView(CreateView):
+class EmployeeCreateView(CreateView): 
     model = Employee
-    form_class = EmployeeForm
-    template_name='HR/EmployeeCreateView.html'
-    success_url = reverse_lazy('CORE:success')
+    form_class = EmployeeForm    
+    template_name='HR/EmployeeCUDView.html'
+    #我们必须在这里使用 reverse_lazy()，而不是 reverse(),因为在导入文件时未加载URL
+    success_url = reverse_lazy('success')
+    def get_form(self):
+        f = super().get_form()
+        f.helper.form_action="Employee-add"
+        return f
     
 class EmployeeDeleteView(DeleteView):
     model = Employee
     context_object_name="Employee"
     template_name='HR/EmployeeConfirmDelete.html'
-    success_url = reverse_lazy('CORE:success')
     #我们必须在这里使用 reverse_lazy()，而不是 reverse(),因为在导入文件时未加载URL
+    success_url = reverse_lazy('success')
+    
     # success_url = reverse_lazy('author-list')
 
 class EmployeeUpdateView(UpdateView):
     model = Employee
     form_class = EmployeeForm
-    template_name='HR/EmployeeUpdateView.html'
-    success_url = "/success/"
+    template_name='HR/EmployeeCUDView.html'
+    #我们必须在这里使用 reverse_lazy()，而不是 reverse(),因为在导入文件时未加载URL
+    success_url = reverse_lazy('success')
+
+    def get_form(self):
+        f = super().get_form()
+        f.helper.form_action=reverse("Employee-update", args=[self.object.user.id])
+        return f
 
 class BackBoneCreateView(CreateView):
     model = BackBone

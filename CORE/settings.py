@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'CORE',
     'HR',
 ]
+if DEBUG:
+    INSTALLED_APPS.append("debug_toolbar")
 
 #django-crispy-forms 表明使用哪个CSS模板
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -55,6 +57,32 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+if DEBUG:
+    MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
+    CONFIG_DEFAULTS = {
+        # Toolbar options
+        'DISABLE_PANELS': {'debug_toolbar.panels.redirects.RedirectsPanel'},
+        'INSERT_BEFORE': '</body>',
+        'JQUERY_URL': '//cdn.bootcss.com/jquery/2.1.4/jquery.min.js',
+        'RENDER_PANELS': None,
+        'RESULTS_CACHE_SIZE': 10,
+        'ROOT_TAG_EXTRA_ATTRS': '',
+        'SHOW_COLLAPSED': False,
+        'SHOW_TOOLBAR_CALLBACK': 'debug_toolbar.middleware.show_toolbar',
+        # Panel options
+        'EXTRA_SIGNALS': [],
+        'ENABLE_STACKTRACES': True,
+        'PROFILER_MAX_DEPTH': 10,
+        'SHOW_TEMPLATE_CONTEXT': True,
+        'SKIP_TEMPLATE_PREFIXES': (
+            'django/forms/widgets/',
+            'admin/widgets/',
+        ),
+        'SQL_WARNING_THRESHOLD': 500,   # milliseconds
+    }
+
+INTERNAL_IPS = ("127.0.0.1",)
 
 ROOT_URLCONF = 'CORE.urls'
 
@@ -111,12 +139,12 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+# Django后台的默认语言是英语，可以修改为中文。在settings.py中添加：
+LANGUAGE_CODE = 'zh-CN'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
-
 USE_L10N = True
 
 USE_TZ = True
