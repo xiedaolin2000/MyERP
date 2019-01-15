@@ -17,6 +17,21 @@ class EmployeeListView(LoginRequiredMixin,ListView):
         #返回在职状态的人员
         return Employee.objects.filter(workStatus="00")
 
+class QueryResultListView(ListView):
+    model = Employee
+    ordering= ["-id"]
+    context_object_name = 'Employee'
+    template_name='HR/QueryResultListView.html'
+    def get_queryset(self):
+        #
+        queryValue = self.request.GET["q"].upper()
+        if queryValue.isdecimal() or queryValue.startswith("B-"):
+            qs = Employee.objects.filter( workNo__contains   = queryValue,  workStatus="00")
+        else:
+            qs = Employee.objects.filter( userName__contains = queryValue,  workStatus="00")
+        #返回符合查询条件的在职状态人员
+        return qs
+
 class EmployeeDetailView(LoginRequiredMixin,DetailView):
     model = Employee
     context_object_name = 'employee'
@@ -78,6 +93,8 @@ class DemissionUpdateView(UpdateView):
 
 from django.db.models import Count
 def dashboard_HR(request):
+    para1 = request.GET.get("q")
+    print("url parameter is %s" %(para1))
     #如果在分组统计的聚合函数的时候，如果模型设置了META.ordering，一定要用order_by()否则结果无法预料
     sex_ratio = Employee.objects.values("sex").annotate(Count("user")).order_by()
     #获取模型中的下拉列表选项,是元组列表

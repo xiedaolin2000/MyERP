@@ -1,0 +1,32 @@
+{% extends "Base_APP.html" %}
+
+
+{% block SubPageHeader %}
+		员工信息
+{% endblock SubPageHeader%}
+
+{%block SubPageDescription%}
+列表形式显示人员简要信息
+{%endblock SubPageDescription%}
+
+{% block SubPageContent %}
+<div class="row">
+  {% for p in Employee %}
+      <div class="col-sm-2">
+      <div class="card" style="width: 18rem;">
+          <img src="/static/HR/{{p.headPicPath}}" class="card-img-top" alt="..." width="120" height="120">
+      <div class="card-body">  
+        <div class="col-6">{{p.userName}}</div>
+        <div class="col-6">{{p.workNo}}</div>      
+      <a href="/HR/{{p.pk}}/upd">详情</a>/
+      <a href="/HR/{{p.pk}}/del">删除</a>
+    </div>
+  </div>
+
+ 
+  </div>
+
+  {% endfor %}    
+</div>
+
+{% endblock SubPageContent %}

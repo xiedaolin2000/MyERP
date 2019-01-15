@@ -16,22 +16,22 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from . import views
-from .views import getEmployeeinfo, addEmployeeInfo,modEmployeeInfo
+from .views import getEmployeeinfo, modEmployeeInfo
 from .views import EmployeeListView, BackBoneCreateView
-from .views import EmployeeCreateView,EmployeeDeleteView,EmployeeUpdateView,EmployeeDetailView
+from .views import EmployeeCreateView,EmployeeDeleteView,EmployeeUpdateView,EmployeeDetailView,QueryResultListView
 from .views import DemissionCreateView,DemissionUpdateView
 
 urlpatterns = [
     #WebService 接口
     path('WS', getEmployeeinfo),
-    path('',            views.dashboard_HR, name="dashboard-HR"),
-    path('list',         EmployeeListView.as_view(),name="Employee-list"),
-    path('add/',         EmployeeCreateView.as_view(), name="Employee-add"),
-    path('<int:pk>/',    EmployeeDetailView.as_view(), name="Employee-detail"),
-    path('<int:pk>/upd', EmployeeUpdateView.as_view(), name="Employee-update"),
-    path('<int:pk>/del', EmployeeDeleteView.as_view(), name="Employee-delete"),
+    path('',             QueryResultListView.as_view(), name="HR-Root"),
+    path('list',         EmployeeListView.as_view(),    name="Employee-list"),
+    path('add/',         EmployeeCreateView.as_view(),  name="Employee-add"),
+    path('<int:pk>/',    EmployeeDetailView.as_view(),  name="Employee-detail"),
+    path('<int:pk>/upd', EmployeeUpdateView.as_view(),  name="Employee-update"),
+    path('<int:pk>/del', EmployeeDeleteView.as_view(),  name="Employee-delete"),
     #骨干员工
-    path('bone/',        BackBoneCreateView.as_view(), name="BackBone-add"),
+    path('bone/',        BackBoneCreateView.as_view(),  name="BackBone-add"),
     #离职手续
     path('leave/',         DemissionCreateView.as_view(), name="Demission-add"),
     path('<int:pk>/leave', DemissionUpdateView.as_view(), name="Demission-update"),
